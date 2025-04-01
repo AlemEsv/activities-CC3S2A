@@ -74,3 +74,31 @@ deployment: Toma el código ya probado de la parte de CI y crea un ejecutable li
 **Gradle**: pruebas, politicas para el código.
 
 Testing Selenium y Gremlin para el monitorio de testeo de pruebas para el código.
+
+# Infraestructura como código (IaC)
+
+Se trata como código a todo aquel procedimiento dentro de una infraestructura TI,usado para configurar y administrar recursos que definen la infraestructura de nuestro software mediante archivos de texto o configuraciones declarativas.
+
+*generalmente almacenadas en controladores de versiones como Git*
+
+## Concepto de IaC
+
+Poder reproducir una infraestructura en cualquier entorno posible (desarrollo, pruebas y producción)
+
+## Principios de IaC
+
+- **Reproducibilidad**
+
+Capacidad de recrear un entorno en diferentes contextos.
+
+- **Idempotencia**
+
+Ejecutar múltiples veces el mismo código no dará cambios adicionales.
+
+- **Composabilidad**
+
+Infraestructura compuesta en módulos reutilizabes flexibles.
+
+- **Evolución controlada**
+
+Posibilidad de versionar cada cambio y así poder tener control de cada modificación en los archivos.
