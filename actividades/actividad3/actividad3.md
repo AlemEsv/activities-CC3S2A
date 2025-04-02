@@ -69,3 +69,21 @@ Un desarrollador va optar por un PaaS cuando solo quiera hacer uso de las herram
 | PaaS     | Google App Engine | Heroku                | Azure App Service     |
 | AaaS     | Google BigQuery   | AWS QuickSight        | Microsoft Power BI    |
 | DaaS     | Amazon WorkSpaces | Azure Virtual Desktop | Citrix VIrtual Apps   |
+
+## 5. Tipos de nubes
+#### a. ¿Cuáles son las ventajas de implementar una nube privada para una organización grande?
+
+#### b. ¿Por qué una empresa podría verse afectada por el “provider lock-in”?
+
+#### c. ¿Qué rol juegan los “hyperscalers” en el ecosistema de la nube?
+
+
+# Estudio de casos
+
+## 1. Empresas que migraron a la nube
+#### a. Instagram
+
+#### b. Netflix
+
+#### c.
+
