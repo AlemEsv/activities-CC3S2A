@@ -1,1 +1,1 @@
-print('Hola mundo')
+def greet(): print('Hola desde advanced-feature') greet()
