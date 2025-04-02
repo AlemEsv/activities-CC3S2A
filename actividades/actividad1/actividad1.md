@@ -24,7 +24,7 @@ Facilitan la integración de desarrollo, pruebas y operaciones, reduciendo la de
 
 
 ## ¿Qué significa "desplazar a la izquierda" en el contexto de DevSecOps y por qué es importante?
-
+Consiste en mover las actividades de seguridad y pruebas de calidad a las primeras etapas del desarrollo, ayudando a detectar problemas tempranamente, reduciendo costos y tiempo.
 
 ## Explica cómo IaC mejora la consistencia y escalabilidad en la gestión de infraestructuras.
 
