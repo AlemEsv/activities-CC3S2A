@@ -72,9 +72,10 @@ Un desarrollador va optar por un PaaS cuando solo quiera hacer uso de las herram
 
 ## 5. Tipos de nubes
 #### a. ¿Cuáles son las ventajas de implementar una nube privada para una organización grande?
-
+Las nubes privadas implementan un mejor control, seguridad y personalización a las nubes, a comparación de una nube pública donde no puedes tener un control total de lo que tienes subido en la nube.
+La seguridad también es otro punto clave, donde puedes aislar recursos, tener brechas de datos más pequeñas gracias a la privatización de varios recursos.
 #### b. ¿Por qué una empresa podría verse afectada por el “provider lock-in”?
-
+El "provider lock-in" pasa cuando una empresa solo confia en un proveedor de servicios en la nube. Esto puede ocasionar en que mientras más tiempo pase más costoso será intentar migrar parte de los servicios a diferentes nubes por X o Y motivo, en dado caso pase la migración de datos puede existir una perdida de datos dependiende de la cantidad de datos almacenados en esa única nube. Nuevas tecnologías han sido diseñadas para prevenir a una empresa a esto, y así no ocasionar perdidas innecesarias de datos y dinero.
 #### c. ¿Qué rol juegan los “hyperscalers” en el ecosistema de la nube?
 
 
