@@ -1,5 +1,2 @@
-print('Hola mundo')
-
-greet()
-
-print('Hola mundo - actualizado desde main')
+def greet(): 
+    print('Bug fixeado en el feature')
