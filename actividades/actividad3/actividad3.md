@@ -20,10 +20,6 @@ Cuando un sitio web recibe un alto número de solicitudes, un solo servidor pued
 - **Mayor tiempo de respuesta** debido a la sobrecarga.
 - **Fallas en la disponibilidad** si el servidor se cae o experimenta problemas.
 
-Para mitigar estos problemas, se implementaron arquitecturas de múltiples servidores organizados en **clústeres**, con la ayuda de **balanceadores de carga** que distribuyen las solicitudes entre ellos.
-
-El crecimiento del tráfico web impulsó la necesidad de soluciones escalables y tolerantes a fallos. La adopción de clústeres de servidores junto con balanceadores de carga permite manejar grandes volúmenes de tráfico de manera eficiente, mejorando la experiencia del usuario y asegurando la disponibilidad del servicio.
-
 ##### b. Describe un ejemplo práctico de cómo un desarrollador de software puede beneficiarse del uso de load balancers para una aplicación web.
 Imaginemos que un desarrollador está construyendo una aplicación web para una tienda en línea. A medida que el sitio crece en popularidad, miles de usuarios intentan acceder simultáneamente, generando una carga pesada en el servidor.
 
@@ -41,8 +37,6 @@ Imaginemos que un desarrollador está construyendo una aplicación web para una 
 - **Mejor rendimiento**: La carga se distribuye, evitando que un solo servidor se sobrecargue.
 - **Alta disponibilidad**: La aplicación sigue funcionando incluso si uno o más servidores fallan.
 - **Escalabilidad**: Se pueden agregar más servidores sin interrumpir el servicio.
-
-Este enfoque permite que el desarrollador ofrezca una experiencia rápida y confiable a los usuarios, sin preocuparse por interrupciones o tiempos de inactividad inesperados.
 
 ## 3. Elastic computing
 
