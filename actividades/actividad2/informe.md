@@ -20,8 +20,8 @@ Además se da uso a herramientas de seguridad integradas en el proceso CI/CD, co
 # 5. Empresas y el uso de herramientas para el control de altos volúmenes de tráfico de datos  
 Tenemos varios casos de herramientas que manejen dichos desafíos como:
 - Netflix:
-Netflix hace uso de balanceadores de carga elásticos (ELB) para distribuir mejor su tráfico entre zonas, además de tener bases de datos descentralizadas para poder tener mayor seguridad por si hay alguna caída en los almacenes de sus computadores, y así reducir errores por la cantidad de datos almacenados que tienen.
+Hace uso de balanceadores de carga elásticos (ELB) para distribuir mejor su tráfico entre zonas, además de tener bases de datos descentralizadas para poder tener mayor seguridad por si hay alguna caída en los almacenes de sus computadores, y así reducir errores por la cantidad de datos almacenados que tienen.
 - Spotify: 
-Spotify hace uso de Kubernetes como software para la gestión de la orquestación de contenedores en su infraestructura de microservicios.
+Hace uso de Kubernetes como software para la gestión de la orquestación de contenedores en su infraestructura de microservicios.
 - Uber: 
-Uber maneja grandes volúmenes de datos utilizando softwares como apache Kafka para poder transmitir eventos de forma más eficiente, y Cassandra para el manejo de sus datos
+Maneja grandes volúmenes de datos utilizando softwares como apache Kafka para poder transmitir eventos de forma más eficiente, y Cassandra para el manejo de sus datos
