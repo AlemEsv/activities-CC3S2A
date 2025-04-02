@@ -1,4 +1,13 @@
 > **Tarea teórica:**  
+> - Investigar una herramienta de IaC (p. ej. Terraform) y describir cómo organiza sus módulos.  
+> - Proponer la estructura de archivos y directorios para un proyecto hipotético que incluya tres módulos: `network`, `database` y `application`. Justificar la jerarquía elegida.
+### Terraform
+
+#### Módulos de terraform
+
+### Estructura de archivos
+
+> **Tarea teórica:**  
 > - Describir un flujo simple de despliegue donde un desarrollador hace un cambio en el código, se construye una nueva imagen Docker y se actualiza un Deployment de Kubernetes.  
 > - Explicar las ventajas de usar Kubernetes para escalar una aplicación en un evento de alto tráfico.
 ### Describir un flujo simple de despliegue donde un desarrollador hace un cambio en el código, se construye una nueva imagen Docker y se actualiza un Deployment de Kubernetes.  
