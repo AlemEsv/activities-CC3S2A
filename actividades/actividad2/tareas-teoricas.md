@@ -41,3 +41,13 @@ Cuando una aplicación sufre un evento de alto tráfico, como el inicio de venta
 4. Optimización de recursos: Kubernetes ajusta el consumo de memoria y CPU según la carga que se esté experimentando, administrando muy bien los recursos y optimizando el rendimiento.
 
 5. Versatilidad: Funciona en distintos entornos: en la nube, servidores físicos o en una combinación de estos, lo cual nos da una alta disponibilidad.
+
+### Investigar y describir cómo Prometheus y Grafana se integran con Kubernetes para monitorear los contenedores y el cluster.
+
+- **Prometheus:** Sistema de monitoreo encargado de crear métricas de los componentes del clúster y de las aplicaciones en ejecución. Se despliega como un Pod independiente o junto con Prometheus Operator.
+
+- **Grafana:** Grafana se complementa con Prometheus, brinda representación visual de las métricas obtenidas. También se ejecuta como un Pod en Kubernetes y se configura para obtener datos directamente desde Prometheus como su fuente de datos.
+
+## Explicar la diferencia entre entrega continua (continuous delivery) y despliegue continuo (continuous deployment).
+
+Primeramente, el **continuous delivery** automatiza los testeos de la aplicación, pero deja el tema del despliegue a producción a decisión del desarrollador, de forma manual. Por otro lado el **continuous deployment**  te lleva automáticamente al despliegue en producción, cosa que ayuda a tener un flujo de trabajo más rápido aunque no siempre más eficaz. Cada uno se uso dependiendo del contexto de tu desarrollo de software asi que no hay una mejor forma que la otra.
