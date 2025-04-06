@@ -82,9 +82,47 @@ El "provider lock-in" pasa cuando una empresa solo confia en un proveedor de ser
 # Estudio de casos
 
 ## 1. Empresas que migraron a la nube
-#### a. Instagram
+#### a. Coca-cola:
+Coca cola consideró una migración a la nube en el año 2013 debido a la saturación en sus servidores luego de hacer un anuncio en la Super Bowl del 2013, por lo que inició su migración a una nube AWS. 
+Deste aquel momento, la empresa ha tenido una reducción en costos operativos de alrededor un 40%, y el volumen de tickets de TI en un 80%.
+Por lo que esta migración ha supuesto una mejora a los servicios ofrecidos por Coca-cola para las nuevas generaciones.
 
-#### b. Netflix
+#### b. Netflix:
+A raíz de los problemas con los envíos de DVDs en su plataforma digital, por el 2008 Netflix tomó la decisión de dar un salto a la nube, una transición que le costó 7 años.
+La elección de nube que escogieron fue AWS como proveedor principal en su trayectoria para la transición, por 2015 ya tenían migrado la mayoría de sus sistemas, en conjunto con sus servicios al cliente. Este proceso fue largo y muy premeditado para que ningun dato sea perdido, explican eso como uno de los retos más dificiles de la migración.
+en 2016, ya con la migración completada, vieron como el número de suscriptores a su plataforma de streaming comenzaba a multiplicarse de forma exponencial.
+Netflix ha seguido evolucionando a toda velocidad, incorporó muchas funciones nuevas que necesitaron de gran cantidad de recursos, y recurriendo a volúmenes de datos cada vez mayores.
 
-#### c.
+# Comparativa de Modelos de servicio (PaaS, IaaS, SaaS)
 
+| **Aspecto**                 | **IaaS**                                       | **PaaS**                                        | **SaaS**                                       |
+|----------------------------|------------------------------------------------|------------------------------------------------|-----------------------------------------------|
+| **Mantenimiento del S.O.** | Usuario (Operaciones/DevOps)                  | Proveedor                                      | Proveedor                                     |
+| **Despliegue de aplicaciones** | Desarrollador / Operaciones                 | Desarrollador                                  | Proveedor                                     |
+| **Gestión de la red**      | Usuario (Operaciones/DevOps)                  | Proveedor                                      | Proveedor                                     |
+| **Escalado automático**    | Usuario configura, proveedor provee infra     | Proveedor (configurable por el usuario)        | Proveedor                                     |
+| **Escalabilidad**          | Manual / automatizable por el usuario         | Gestionada por el proveedor (autoescalado)     | Transparente para el usuario                  |
+
+## Nube Pública
+- **Costos**: OPEX. Sin grandes inversiones iniciales.
+- **Flexibilidad**: Muy alta. Escalabilidad casi inmediata.
+- **Cumplimiento**: Puede ser complejo si no se elige bien el proveedor.
+- **Cambio de proveedor**: Difícil por dependencia de servicios propietarios.
+
+## Nube Privada
+- **Costos**: CAPEX alto. Requiere hardware propio o dedicado.
+- **Flexibilidad**: Limitada por la infraestructura instalada.
+- **Cumplimiento**: Alta, más fácil controlar datos y procesos.
+- **Cambio de proveedor**: Bajo impacto, si es on-premise.
+
+## Nube Híbrida
+- **Costos**: Combinación de CAPEX y OPEX.
+- **Flexibilidad**: Buena, se aprovecha lo mejor de ambos mundos.
+- **Cumplimiento**: Alta, datos sensibles en nube privada.
+- **Cambio de proveedor**: Complejo por la integración entre nubes.
+
+## Multi-cloud
+- **Costos**: OPEX. Posiblemente más alto por duplicidad de servicios.
+- **Flexibilidad**: Excelente. Se evita la dependencia de un solo proveedor.
+- **Cumplimiento**: Alto, si se elige cada proveedor por fortaleza específica.
+- **Cambio de proveedor**: Menor impacto, ya hay experiencia multilateral.
