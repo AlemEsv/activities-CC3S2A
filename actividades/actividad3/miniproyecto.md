@@ -2,10 +2,10 @@
 
 Como parte del *aprendizaje práctico, forma equipos y presenten un **"Mini-proyecto de arquitectura en la nube"*:
 
-## 1. *Objetivo del sistema*: Cada equipo define brevemente la aplicación o servicio (por ejemplo, un e-commerce, un sistema de reservas, una plataforma de contenido).  
+## 1. Objetivo del sistema:
 Se desarrollara una página web que conecta a usuarios (alumnos o estudiantes preuniversitarios) con alumnos universitarios o egresados para recibir una orientacion vocacional. Los usuarios podran registrarse, buscar carreras disponibles, reservar sesiones virtuales, recibir automaticamente una reunion agendada por correo con un enlace de una plataforma de videollamadas, y calificar el servicio recibido
 
-## 2. *Selección de modelo de servicio*: Explica si se utilizará IaaS, PaaS o SaaS, y justifica por qué.  
+## 2. Selección de modelo de servicio:
 Se elegiria PaaS ya que solamente necesito enfocarme en el desarrollo de la pagina web, no de la infrastructura, ademas que me permite desplegar mi web y backend de forma sencilla. Tambien se utilizaria SaaS, ya que se integrara servicios como google meet o Zoom, ademas del Gmail API para el envio automatico de correos.
 
 ## 5. Costos (directos o indirectos) y riesgos asociados
