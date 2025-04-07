@@ -4,7 +4,12 @@
 ### Terraform
 Es una herramienta open-source que te permite cambiar, manejar y buildear infraestructura como código(IaC).
 #### Módulos de terraform
-...
+📁 web-app                   
+├── 📁 modules                   
+├── main.tf                   
+├── variables.tf              
+└── terraform.tfvars          
+
 ### Estructura de archivos
 ...
 ### Describir un flujo simple de despliegue donde un desarrollador hace un cambio en el código, se construye una nueva imagen Docker y se actualiza un Deployment de Kubernetes.  
