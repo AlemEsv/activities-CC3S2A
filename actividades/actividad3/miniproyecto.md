@@ -9,12 +9,12 @@ Se desarrollara una página web que conecta a usuarios (alumnos o estudiantes pr
 Se elegiria PaaS ya que solamente necesito enfocarme en el desarrollo de la pagina web, no de la infrastructura, ademas que me permite desplegar mi web y backend de forma sencilla. Tambien se utilizaria SaaS, ya que se integrara servicios como google meet o Zoom, ademas del Gmail API para el envio automatico de correos.
 
 ## 3. Tipo de nube:
-Nube pública, nos brinda recursos (servidores, almacenamiento, etc.) ya gestionados por el proveedor externo.
+Haremos uso de una nube pública, ya que nos brinda recursos (servidores, almacenamiento, etc.) ya gestionados por el proveedor externo, por lo que se nos hace más sencillo trabajar desde ese tipo de nube.
 ### El proyecto necesita:
 - Alta disponibilidad, para que los estudiantes puedan entrar en cualquier
 momento.
-- Bajos costos, ya que al ser un proyecto muy pequeño no se contará con un
-presupuesto.
+- Bajos costos, ya que al ser un proyecto pequeño no se contará con un
+presupuesto alto.
 - Escalabilidad automática para su adaptación dependiendo de la cantidad de
 usuarios.
 - Mantenimientos mínimos de los servidores, ya que el grupo debe enfocarse en la
@@ -37,13 +37,18 @@ dashboards colaborativos. Tiene todo incluido para frontend y apps móviles.
 ## 4. Esquema de escalabilidad:
 Según las recomendaciones, ya estamos usando servicios en la nube (Vercel, Supabasem
 Firebase), ya que se ajustan automáticamente dependiendo de la demanda.
+
 - Vercel: escala automáticamente, si el tráfico es demasiado alto, se puede optar
 por planes de pago que nos ayuden.
+
 - Supabase (backend): escala automáticamente, separa funciones críticas y mejora
 la eficiencia de las consultas.
+
 - Supabase (base de datos): Escala verticalmente.
+
 - Firebase: Escala sin esfuerzo, si el tráfico es bastante, es recomendable pasar a
 Firestore o usar reglas de seguridad eficientes.
+
 - Supabase (autenticación): Se maneja sin complicaciones. Si la demanda es
 demasiada, se puede usar proveedores externos, como Google o GitHub, para
 balancear cargas.
