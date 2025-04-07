@@ -25,3 +25,6 @@ Hace uso de balanceadores de carga elásticos (ELB) para distribuir mejor su tr�
 Hace uso de Kubernetes como software para la gestión de la orquestación de contenedores en su infraestructura de microservicios.
 - Uber: 
 Maneja grandes volúmenes de datos utilizando softwares como apache Kafka para poder transmitir eventos de forma más eficiente, y Cassandra para el manejo de sus datos
+
+# 6. Flujo teórico
+![Flujo](Flujo.png)
