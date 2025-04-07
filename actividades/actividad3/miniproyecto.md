@@ -82,3 +82,6 @@ balancear cargas.
 - **Malas experiencias:** Un universitario puede dar una mala charla o tener un comportamiento inapropiado, por eso se tiene un sistema de reporte y moderación activa, con posibilidad de expulsión inmediata.
 
 - **Sobrecarga de infraestructura:** Si la plataforma recibe muchos usuarios de golpe, los servidores podrían colapsar. Para evitar esto, se podría hacer un **autoscaling** en AWS y realizar pruebas de carga periódicas.
+
+## 6. Diagrama visualizador
+![Diagrama de infraestructura](.activities-CC3S2A/actividades/actividad3/diagrama.png)
