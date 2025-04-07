@@ -84,4 +84,4 @@ balancear cargas.
 - **Sobrecarga de infraestructura:** Si la plataforma recibe muchos usuarios de golpe, los servidores podrían colapsar. Para evitar esto, se podría hacer un **autoscaling** en AWS y realizar pruebas de carga periódicas.
 
 ## 6. Diagrama visualizador
-![Diagrama de infraestructura](.diagrama.png)
+![Diagrama de infraestructura](diagrama.png)
