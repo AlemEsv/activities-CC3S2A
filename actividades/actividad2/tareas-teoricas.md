@@ -2,7 +2,7 @@
 > - Investigar una herramienta de IaC (p. ej. Terraform) y describir cómo organiza sus módulos.  
 > - Proponer la estructura de archivos y directorios para un proyecto hipotético que incluya tres módulos: `network`, `database` y `application`. Justificar la jerarquía elegida.
 ### Terraform
-...
+Es una herramienta open-source que te permite cambiar, manejar y buildear infraestructura como código(IaC).
 #### Módulos de terraform
 ...
 ### Estructura de archivos
