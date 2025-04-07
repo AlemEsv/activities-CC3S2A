@@ -50,9 +50,9 @@
 
 
 ### Preguntas 1
-- ¿Qué pasos adicionales tuviste que tomar para resolver el conflicto?
+#### ¿Qué pasos adicionales tuviste que tomar para resolver el conflicto?
 Entré con ayuda de nano al "index.html" para resolver el conflicto, vi que habían 2 versiones distintas para el mismo archivo asi que intenté acoplar las dos versiones en un mismo "index.html", borrando los "==== " y las cabeceras "HEAD" y "feature-update" en ambos casos.
 
-- ¿Qué estrategias podrías emplear para evitar conflictos en futuros desarrollos?
+#### ¿Qué estrategias podrías emplear para evitar conflictos en futuros desarrollos?
 Para futuros trabajos se puede emplear squash para el caso de añadir código nuevo al "index.html", ya que solo se colocaría en una línea de texto posterior a la que ya se tiene inicialmente, por lo que no existirían problemas de mergeo
 
