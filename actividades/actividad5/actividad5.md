@@ -4,7 +4,7 @@
 ### a. Pasos prácticos: 
 ![[pasos_practicos-FastForward.png]]
 ### b. Mostrar la estructura de commits resultante
-![[pregunta-FastForward.png]]
+![[imagenes/pregunta-FastForward.png]]
 # Fusión No-Fast-forward
 
 ### a. Pasos prácticos
