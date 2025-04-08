@@ -1,17 +1,28 @@
-> **Tarea teórica:**  
-> - Investigar una herramienta de IaC (p. ej. Terraform) y describir cómo organiza sus módulos.  
-> - Proponer la estructura de archivos y directorios para un proyecto hipotético que incluya tres módulos: `network`, `database` y `application`. Justificar la jerarquía elegida.
-### Terraform
-Es una herramienta open-source que te permite cambiar, manejar y buildear infraestructura como código(IaC).
-#### Módulos de terraform
-📁 web-app                   
-├── 📁 modules                   
-├── main.tf                   
-├── variables.tf              
-└── terraform.tfvars          
+> **Tareas teóricas**  
+### Terraform 
+Una herramienta de IaC que proporciona un flujo de trabajo de aprovisionamiento y gestion de infrastructura en cualquier nube mediante archivos declarativos en HCL.
+Los modulos son configuraciones pequeñas y reurtilizables para multiples recursos de la infrastructura que se utilizan juntos. Un ejemplo de como se organizan los modulos en terraform es de la siguiente manera:
+```plaintext
+Project/
+|── main.tf
+|── variables.tf
+|── outputs.tf
+|── modulo/
+|  |── network/
+|  |  |── main.tf
+|  |  |── variables.tf
+|  |  |── outputs.tf
+|  |── database/
+|  |  |── main.tf
+|  |  |── variables.tf
+|  |  |── outputs.tf
+|  |── application/
+|  |  |── main.tf
+|  |  |── variables.tf
+|  |  |── outputs.tf
+```
+Se utiliza esta estructura ya que la separacion de modulos (network, database, application) facilita la reutilizacion del codigo, ademas que facilita el mantenimiento ya que cada modulo esa aislado.
 
-### Estructura de archivos
-...
 ### Describir un flujo simple de despliegue donde un desarrollador hace un cambio en el código, se construye una nueva imagen Docker y se actualiza un Deployment de Kubernetes.  
 
 1. Se hace un cambio en el código fuente del software.
@@ -57,4 +68,10 @@ Cuando una aplicación sufre un evento de alto tráfico, como el inicio de venta
 Primeramente, el **continuous delivery** automatiza los testeos de la aplicación, pero deja el tema del despliegue a producción a decisión del desarrollador, de forma manual. Por otro lado el **continuous deployment**  te lleva automáticamente al despliegue en producción, cosa que ayuda a tener un flujo de trabajo más rápido aunque no siempre más eficaz. Cada uno se uso dependiendo del contexto de tu desarrollo de software asi que no hay una mejor forma que la otra.
 
 ## Describir la relevancia de implementar pruebas automáticas (unitarias, de integración, de seguridad) dentro del pipeline.
-...
+
+El uso de pruebas automáticas en el pipeline de desarrollo es importante para garantizar la escalabilidad, calidad y seguridad del software. 
+Estas pruebas, al estar automatizadas, detectan errores de forma temprana, reduciendo así problemas en producción como también costos asociados a su corrección.
+
+- **Pruebas unitarias:** Estas pruebas verifican que el funcionamiento de componentes individuales del código esté correcto. A su vez, detecta errores en la fase temprana del desarrollo, simplificando el trabajos a los desarrolladores en la corrección del código antes de que sean añadidos en el sistema o que se vuelvan más complejos en etapas avanzadas.
+- **Pruebas de integración:** En estas pruebas se evalúa cómo se comportan diferentes módulos o servicios dentro de la aplicación. Son importantes para detectar problemas entre componentes (incompatibilidad), como bases de datos o APIs. La identificación temprana evita que esos errores de comunicación afecten al software en la etapa de producción.
+- **Pruebas de seguridad:** Estas pruebas son fundamentales ya que si no se aplican puede afectar la reputación de la empresa. Acá se detectan vulnerabilidades en el código o configuraciones erróneas que podrían ser aprovechadas por atacantes con el fin de hacer daño al sistema u obtener información.
