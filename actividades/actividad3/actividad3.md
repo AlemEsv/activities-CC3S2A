@@ -130,8 +130,6 @@ Netflix ha seguido evolucionando a toda velocidad, incorporó muchas funciones n
 
 # Ejercicio de presentación de "mini-proyecto"
 
-Como parte del *aprendizaje práctico, forma equipos y presenten un **"Mini-proyecto de arquitectura en la nube"*:
-
 ## 1. Objetivo del sistema:
 Se desarrollara una página web que conecta a usuarios (alumnos o estudiantes preuniversitarios) con alumnos universitarios o egresados para recibir una orientacion vocacional. Los usuarios podran registrarse, buscar carreras disponibles, reservar sesiones virtuales, recibir automaticamente una reunion agendada por correo con un enlace de una plataforma de videollamadas, y calificar el servicio recibido
 
