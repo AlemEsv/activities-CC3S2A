@@ -48,7 +48,6 @@
 #### h. Revisión en el historial.
 ![](imagenes/ejercicio1_i.png)
 
-
 ### Preguntas 1
 #### ¿Qué pasos adicionales tuviste que tomar para resolver el conflicto?
 Entré con ayuda de nano al "index.html" para resolver el conflicto, vi que habían 2 versiones distintas para el mismo archivo asi que intenté acoplar las dos versiones en un mismo "index.html", borrando los "==== " y las cabeceras "HEAD" y "feature-update" en ambos casos.
@@ -81,7 +80,7 @@ Para futuros trabajos se puede emplear squash para el caso de añadir código nu
 ### Preguntas 2:
 #### ¿Cómo se ve el historial en cada tipo de fusión?
 
-### ¿Qué método prefieres en diferentes escenarios y por qué?
+#### ¿Qué método prefieres en diferentes escenarios y por qué?
 
 ### 3. Usando fusiones automáticas y revertir fusiones
 #### Inicializa un repositorio y realiza dos commits en **main**
