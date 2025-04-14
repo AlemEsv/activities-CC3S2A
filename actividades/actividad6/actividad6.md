@@ -85,3 +85,18 @@ Haciendo divisiones de un trabajo por ramas que no toquen los mismos archivos, y
 ### ¿Qué ventajas y desventajas observas al automatizar el rebase en un entorno de CI/CD?
 El rebase permite evitar commits de fusiones innecesarias, dejando un historial claro y fácil de leer para los demás integrantes del proyecto. También facilita la revisión de cambios con `git log`.
 # Navegando conflictos y versionado en un entorno devOps
+## Ejemplo:
+### Inicialización del proyecto y creación de ramas
+![](imagenes/ejercicio8_a.png)
+### Fusión y resolución de conflictos
+![](imagenes/ejercicio8_b.png)
+### Simulación de fusiones y uso de git diff
+![](imagenes/ejercicio8_c.png)
+### Uso de git mergetool
+![](imagenes/ejercicio8_d.png)
+### Uso de git revert y git reset
+![](imagenes/ejercicio8_e.png)
+### Versionado semántico y etiquetado
+![](imagenes/ejercicio8_f.png)
+### Aplicación de git bisect para depuración
+![](imagenes/ejercicio8_g.png)
