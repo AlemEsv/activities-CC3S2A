@@ -133,3 +133,36 @@ Primero, usaría `git reset --soft` cuando necesite hacer cambios al commit sin 
 Para `git reset --mixed` lo necesitaré cuando quiera hacer cambios previos a la entrada al **staging** por si me olvidé agregar un cambio a los archivos modificados antes de hacer el commit.
 y por último `git reset --hard` para cuando el cambio que hice no fue el esperado y necesito eliminar todo rastro localmente del cambio y volver a un estado limpio. No creo que sea recomendable su uso tan seguidamente debido a que borra todos los cambios dentro del último commit hecho.
 Un escenario posible puede ser a la hora de trabajar durante un sprint y subir parte del código incompleto, rompiendo la pipeline de **CI**. Por lo que haría el `git reset --mixed` para añadir todo el código faltante, realizar las pruebas necesarias y corregir bien cada cambio hech para recién poder realizar bien el commit sin necesidad de empezar todo denuevo como sería si pongo `git reset --hard`
+### Explica cómo utilizarías `git revert` para deshacer los cambios sin modificar el historial de commits. ¿Cómo te aseguras de que esta acción no afecte la pipeline de CI/CD y permita una rápida recuperación del sistema? Proporciona un ejemplo detallado de cómo revertirías varios commits consecutivos.
+La función que tiene `git revert` es la de aplicar un nuevo commit que deshace los cambios puestos en el último commit hecho en la rama que se esté trabajando, otorgando un historial limpio y sin necesidad de tener que recurrir a un  `git reset --hard`. Esto hace que la pipeline siga funcionando, y no se tenga que usar reseteos o `force push` por parte de los otros integrantes del proyecto.
+### Explica cómo utilizarías `git stash` para guardar temporalmente tus cambios y volver a ellos después de haber terminado el hotfix. ¿Qué impacto tiene el uso de `git stash` en un flujo de trabajo ágil con CI/CD cuando trabajas en múltiples tareas? ¿Cómo podrías automatizar el proceso de _stashing_ dentro de una pipeline CI/CD?
+Si tengo un cambio a medias en una rama especifica y necesito hacer cambios a otra rama sin tener que hacer un commit de los cambios que tengo actualmente usaría `git stash`
+```
+git stash push -m "funcionalidad incompleta"
+```
+para los cambios temporales, y revisaría lo que se necesita en la otra rama.
+El uso del `git stash` permite trabajar en diferentes ramas en paralelo sin la necesidad de hacer commits en cada cambio incompleto para poder pasar entre ramas y que tu progreso no se elimine 
+```
+git stash push -m "temporal"
+git checkout hotfix-temporal
+# ...acciones...
+git stash pop
+```
+### Diseña un archivo `.gitignore` que excluya archivos innecesarios en un entorno ágil de desarrollo. Explica por qué es importante mantener este archivo actualizado en un equipo colaborativo que utiliza CI/CD y cómo afecta la calidad y limpieza del código compartido en el repositorio.
+En un proyecto ágil, los desarrolladores usan entornos distintos para el trabajo, generando logs, configuraciones locales y archivos temporales que no deberían llegar al repositorio.
+```
+# Entorno que usen los desarrolladores
+.vscode/
+.idea/
+# Archivos temporales
+*.temp
+*.tmp
+*.log
+# Entornos virtuales
+venv/
+.env/
+# Configuraciones locales
+*.env
+secrets.json
+```
+Esto mantiene el repositorio limpio de configuraciones locales y posibles archivos que pueden hacer conflictos a la hora de probarlos en otros equipos con diferentes configuraciones, reduce el tamaño del repositorio y facilita la colaboración continua.
