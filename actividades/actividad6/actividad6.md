@@ -102,3 +102,34 @@ El rebase permite evitar commits de fusiones innecesarias, dejando un historial 
 ### Aplicación de git bisect para depuración
 ![](imagenes/ejercicio8_g.png)
 ## Preguntas
+### ¿Cómo utilizarías los comandos `git checkout --ours` y `git checkout --theirs` para resolver este conflicto de manera rápida y eficiente? Explica cuándo preferirías usar cada uno de estos comandos y cómo impacta en la pipeline de CI/CD. ¿Cómo te asegurarías de que la resolución elegida no comprometa la calidad del código?
+Si inicialmente quise hacer un merge desde main con el equipo B y quiero mantener los cambios sugeridos por ellos usaría `git checkout --ours` para resolver el conflicto manteniendo sus cambios, y en dado caso quiera los cambios del equipo A lo normal sería usar `git checkout --theirs` para guardar sus modificaciones y así no armar un conflicto mayor al hacer que ambos equipos trabajen cambios sobre el mismo archivo con diferentes cambios. 
+- Usaría `--ours` cuando confíe en la estabilidad y las pruebas del código en la rama actual.
+- Usaría `--theirs` si las correcciones y posibles mejores de la otra rama tienen arreglos más sofisticados y simples de leer.
+Haciendo uso de un `git diff` antes de hacer el `commit` podremos observar los cambios exactos que quedaron tras el `--ours o --theirs`
+### Utilizando el comando `git diff`, ¿cómo compararías los cambios entre ramas para identificar diferencias específicas en archivos críticos? Explica cómo podrías utilizar `git diff feature-branch..main` para detectar posibles conflictos antes de realizar una fusión y cómo esto contribuye a mantener la estabilidad en un entorno ágil con CI/CD.
+Al utilizar  `git diff feature-branch..main` se muestra qué cambios hay en  `main` que no están en la rama `feature-branch`, por lo que uno puede anticipar los posibles conflictos que podría generar un posible futuro merge entre ambas ramas. Por lo que contribuye en la estabilidad del código a futuros merges conflictivos.
+### Describe cómo usarías el comando `git merge --no-commit --no-ff` para simular una fusión en tu rama local. ¿Qué ventajas tiene esta práctica en un flujo de trabajo ágil con CI/CD, y cómo ayuda a minimizar errores antes de hacer commits definitivos? ¿Cómo automatizarías este paso dentro de una pipeline CI/CD?
+Al usar `git merge --no-commit --no-ff` tenemos como ventaja que si, a la hora de hacer el merge, hay algún conflicto no sea de forma definitiva al no haber realizado el commit automático. Esto muestra que se puede tratar con mejor cuidado los mergeos que se puedan hacer sin necesidad de afectar a las otras ramas.
+```
+jobs:
+  test-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+- name: Obtener ramas
+        run: |
+          git fetch origin
+          git checkout feature-branch
+          git merge origin/main --no-commit --no-ff
+- name: Ejecutar pruebas
+        run: |
+          ./run-tests.sh
+```
+### Explica cómo configurarías y utilizarías `git mergetool` en tu equipo para integrar herramientas gráficas que faciliten la resolución de conflictos. ¿Qué impacto tiene el uso de `git mergetool` en un entorno de trabajo ágil con CI/CD, y cómo aseguras que todos los miembros del equipo mantengan consistencia en las resoluciones?
+Primero configuraría el  `git mergetool` con la herramienta gráfica que mejor se acomode a las preferencias generales de la mayoría del equipo de desarrollo. El impacto se da a la hora de trabajar con archivos conflictivos ya que pueden ser resueltas  en un mismo entorno gráfico, aumentando velocidad de integración en sprints con poco tiempo entre ellos, facilidad en colaboración entre desarrolladores por el uso de la herramienta gráfica y una mejor calidad y legibilidad del código.
+### Explica las diferencias entre `git reset --soft`, `git reset --mixed` y `git reset --hard`. ¿En qué escenarios dentro de un flujo de trabajo ágil con CI/CD utilizarías cada uno? Describe un caso en el que usarías `git reset --mixed` para corregir un commit sin perder los cambios no commiteados y cómo afecta esto a la pipeline.
+Primero, usaría `git reset --soft` cuando necesite hacer cambios al commit sin necesidad de que mis cambios sean borrados, por ejemplo por si no especifiqué bien el mensaje de mi commit.
+Para `git reset --mixed` lo necesitaré cuando quiera hacer cambios previos a la entrada al **staging** por si me olvidé agregar un cambio a los archivos modificados antes de hacer el commit.
+y por último `git reset --hard` para cuando el cambio que hice no fue el esperado y necesito eliminar todo rastro localmente del cambio y volver a un estado limpio. No creo que sea recomendable su uso tan seguidamente debido a que borra todos los cambios dentro del último commit hecho.
+Un escenario posible puede ser a la hora de trabajar durante un sprint y subir parte del código incompleto, rompiendo la pipeline de **CI**. Por lo que haría el `git reset --mixed` para añadir todo el código faltante, realizar las pruebas necesarias y corregir bien cada cambio hech para recién poder realizar bien el commit sin necesidad de empezar todo denuevo como sería si pongo `git reset --hard`
