@@ -15,13 +15,13 @@
 ##### **Preguntas de discusión:**
 
 #### 1. ¿Por qué se considera que rebase es más útil para mantener un historial de proyecto lineal en comparación con merge?  
-texto_ejemplo
+uso **rebase** cuando quiero que el historial de cambios se vea más limpio y ordenado. A diferencia de **merge**, que mezcla ramas, **rebase** lo que hace es mover mis cambios como si los hubiera hecho justo después del último commit de la rama `main`. 
 #### 2. ¿Qué problemas potenciales podrían surgir si haces rebase en una rama compartida con otros miembros del equipo?  
-texto_ejemplo
+Se podría ocasionar conflictos entre los progresos que tenga cada uno de los integrantes, ocasionando archivos en conflicto dentro de la misma rama, o sobreposición de elementos ya añadidos en la rama.
 #### 3. ¿En qué se diferencia cherry-pick de merge, y en qué situaciones preferirías uno sobre el otro?  
-texto_ejemplo
+Utilizo **Cherry-pick** cuando quiero seleccionar y aplicar commits concretos de una rama a otra, sin necesidad de trasladar todo el historial. Mientras que cuando uso **merge** me encargo de integrar todos los commits de una rama en otra, combinando ambos historiales. Por lo que, si busco aplicar cambios puntuales es más adecuado usar **cherry-pick**, mientras que si la intención es unir el trabajo completo de dos ramas, lo recomendable es usar **merge**.
 #### 4. ¿Por qué es importante evitar hacer rebase en ramas públicas?
-texto_ejemplo
+Al trabajar con ramas públicas tanto nosotros como los otros miembros del equipo estaríamos trabajando con el historial antiguo, por lo que podría resultar en conflictos al momento de intentar aplicar algún cambio. 
 #### **Ejercicios teóricos**
 
 #### 1. **Diferencias entre git merge y git rebase**  
@@ -100,3 +100,4 @@ El rebase permite evitar commits de fusiones innecesarias, dejando un historial 
 ![](imagenes/ejercicio8_f.png)
 ### Aplicación de git bisect para depuración
 ![](imagenes/ejercicio8_g.png)
+## Preguntas
