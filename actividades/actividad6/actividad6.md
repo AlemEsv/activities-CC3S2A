@@ -14,27 +14,27 @@
 ![](imagenes/parte2_b.png)
 ##### **Preguntas de discusión:**
 
-1. ¿Por qué se considera que rebase es más útil para mantener un historial de proyecto lineal en comparación con merge?  
-	 aaaa
-2. ¿Qué problemas potenciales podrían surgir si haces rebase en una rama compartida con otros miembros del equipo?  
-	aaaa
-3. ¿En qué se diferencia cherry-pick de merge, y en qué situaciones preferirías uno sobre el otro?  
-	 aaaa
-4. ¿Por qué es importante evitar hacer rebase en ramas públicas?
-	 aaaa
+#### 1. ¿Por qué se considera que rebase es más útil para mantener un historial de proyecto lineal en comparación con merge?  
+texto_ejemplo
+#### 2. ¿Qué problemas potenciales podrían surgir si haces rebase en una rama compartida con otros miembros del equipo?  
+texto_ejemplo
+#### 3. ¿En qué se diferencia cherry-pick de merge, y en qué situaciones preferirías uno sobre el otro?  
+texto_ejemplo
+#### 4. ¿Por qué es importante evitar hacer rebase en ramas públicas?
+texto_ejemplo
 #### **Ejercicios teóricos**
 
-1. **Diferencias entre git merge y git rebase**  
-   **Pregunta**: Explica la diferencia entre git merge y git rebase y describe en qué escenarios sería más adecuado utilizar cada uno en un equipo de desarrollo ágil que sigue las prácticas de Scrum.
-	 dddd
+#### 1. **Diferencias entre git merge y git rebase**  
+   **Explica la diferencia entre git merge y git rebase y describe en qué escenarios sería más adecuado utilizar cada uno en un equipo de desarrollo ágil que sigue las prácticas de Scrum.**
+dddd
 
-3. **Relación entre git rebase y DevOps**  
-   **Pregunta**: ¿Cómo crees que el uso de git rebase ayuda a mejorar las prácticas de DevOps, especialmente en la implementación continua (CI/CD)? Discute los beneficios de mantener un historial lineal en el contexto de una entrega continua de código y la automatización de pipelines.
-	 aaaa
+#### 2. **Relación entre git rebase y DevOps**  
+- **¿Cómo crees que el uso de git rebase ayuda a mejorar las prácticas de DevOps, especialmente en la implementación continua (CI/CD)? Discute los beneficios de mantener un historial lineal en el contexto de una entrega continua de código y la automatización de pipelines.**
+aaaa
 
-5. **Impacto del git cherry-pick en un equipo Scrum**  
-   **Pregunta**: Un equipo Scrum ha finalizado un sprint, pero durante la integración final a la rama principal (main) descubren que solo algunos commits específicos de la rama de una funcionalidad deben aplicarse a producción. ¿Cómo podría ayudar git cherry-pick en este caso? Explica los beneficios y posibles complicaciones.
-	aaaa
+#### 3. **Impacto del git cherry-pick en un equipo Scrum**  
+- **Un equipo Scrum ha finalizado un sprint, pero durante la integración final a la rama principal (main) descubren que solo algunos commits específicos de la rama de una funcionalidad deben aplicarse a producción. ¿Cómo podría ayudar git cherry-pick en este caso? Explica los beneficios y posibles complicaciones.**
+aaaa
 
 ### ejercicios prácticos
 #### 1. Simulación de un flujo de trabajo Scrum con git rebase y git merge
@@ -45,7 +45,7 @@
 Se fusionó el commit **Actualización en main** en la rama principal
 ![](imagenes/ejercicio1_c.png)
 - **¿En qué situación aplicarías una fusión fast-forward en un proyecto ágil?**
-Sería muy útil para proyectos en los que la rama principal no avanzó mientras se trabajaba en las ramas generadas.
+Sería muy útil para proyectos en los que la rama principal no avance mientras se trabajaba en las ramas generadas.
 #### 2. Cherry-pick para integración selectiva en un pipeline CI/CD
 ![](imagenes/ejercicio2_a.png)
 ![](imagenes/ejercicio2_b.png)
