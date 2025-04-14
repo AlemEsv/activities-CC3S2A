@@ -54,3 +54,34 @@ Sería muy útil para proyectos en los que la rama principal no avance mientras 
 Usaría cherry-pick para casos en los cuales necesito usar ciertas funciones de otra rama que no hayan estado en el momento en que yo creé mi rama. Otra utilidad que le encuentro es cuando al trabajar sobre una rama encuentro un error que otra persona del equipo ya lo arregló en su rama, asi que podría 
 - **¿Qué ventajas ofrece cherry-pick en un flujo de trabajo de DevOps?**
 con cherry-pick puedes dar uso de commits hechos en diferentes ramas que pueden ayudar a tener funciones agregadas a la rama donde estás trabajando sin necesidad de colocarse en esa rama y hacer varios merges.
+# **Git, Scrum y Sprints**
+## Ejercicio 1: Crear ramas de funcionalidades (feature branches)
+### Crear repositorio, crear rama **main** y dos ramas para usuarios
+![](imagenes/ejercicio3_a.png)
+### ¿Por qué es importante trabajar en ramas de funcionalidades separadas durante un sprint?
+Al cada rama no estar conectada directamente con las demás, cada persona puede avanzar por cada funcionalidad sin necesidad de estar en constante pregunta con su equipo para que sus cambios no hagan conflictos con los demás, además hace tener un trabajo mejor organizado y óptimo para no hacer cambios improvistos que dañen el código a largo plazo.
+## Ejercicio 2: Desarrollo del sprint (sprint execution)
+### Hacer commits en main y un rebase en una de las ramas creadas
+![](imagenes/ejercicio4_a.png)
+### ¿Qué ventajas proporciona el rebase durante el desarrollo de un sprint en términos de integración continua?
+Estos rebase son útiles si hay funcionalidad nuevas implementadas en la rama principal y quieres tener esas funcionalidades dentro de la rama de tu trabajo, por lo que puedes implementar estos cambios hechos en los commits posteriores a la creación de tu rama como si fueran cambios puestos antes de que comenzara tu etapa de desarrollo.
+## Ejercicio 3: Integración selectiva con `git cherry-pick`
+### Realizar cambios en la rama feature-user-story-2 y cherry-pick en main
+![](imagenes/ejercicio5_a.png)
+### ¿Cómo ayuda `git cherry-pick` a mostrar avances de forma selectiva en un sprint review?
+al usar `git cherry-pick` puedes tomar uno o varios commits de otras ramas y aplicarla a la que estés trabajando, por lo que puedes implementar avances funcionales y completos a tu rama sin necesidad de conectarte con main u otra rama que tenga otros cambios que puedan provocar un posible conflicto entre archivos.
+## Ejercicio 4: Revisión de conflictos y resolución
+### Cambios en las subramas de los usuarios para resolver conflictos y hacer un merge exitoso
+![](imagenes/ejercicio6_a.png)
+![](imagenes/ejercicio6_b.png)
+### ¿Cómo manejas los conflictos de fusión al final de un sprint? 
+Al haber un conflicto de fusión reviso con `nano (archivo)` los posibles conflictos y arreglo manualmente cada uno de los archivos en conflicto para asegurarme que no pase nada a la hora de hacer una fusión con otra rama, como por ejemplo la rama **main**
+### ¿Cómo puede el equipo mejorar la comunicación para evitar conflictos grandes?
+Haciendo divisiones de un trabajo por ramas que no toquen los mismos archivos, y que no modifiquen partes del código que afecten a las demás partes encargadas del desarrollo del software. Además, la necesidad de hacer commits frecuentes en cada rama para visualizar si algunas funciones están completadas o si falta darles revisiones ayudan a evitar conflictos a gran escala. 
+## Ejercicio 5: Automatización de rebase con hooks de Git
+### Configurar un hook `pre-push` para un rebase en la rama master y su respectiva prueba.
+![](imagenes/ejercicio7_a.png)
+![](imagenes/ejercicio7_b.png)
+### ¿Qué ventajas y desventajas observas al automatizar el rebase en un entorno de CI/CD?
+El rebase permite evitar commits de fusiones innecesarias, dejando un historial claro y fácil de leer para los demás integrantes del proyecto. También facilita la revisión de cambios con `git log`.
+# Navegando conflictos y versionado en un entorno devOps
