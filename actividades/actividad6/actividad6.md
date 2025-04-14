@@ -31,11 +31,11 @@ En un equipo Scrum, lo mejor sería usar rebase cuando se trabaje en una rama lo
 
 ### 2. **Relación entre git rebase y DevOps**  
 #### **¿Cómo crees que el uso de git rebase ayuda a mejorar las prácticas de DevOps, especialmente en la implementación continua (CI/CD)? Discute los beneficios de mantener un historial lineal en el contexto de una entrega continua de código y la automatización de pipelines.**
-aaaa
+`git rebase` ayuda a DevOps y CI/CD porque permite mantener un historial de commits limpio y lineal, reduce conflictos al integrarse con la rama principal antes de hacer merge, facilita la automatización y depuración en pipelines, mejora la trazabilidad del código, evita errores en despliegues automáticos y promueve una cultura de responsabilidad sobre los cambios
 
 ### 3. **Impacto del git cherry-pick en un equipo Scrum**  
 #### **Un equipo Scrum ha finalizado un sprint, pero durante la integración final a la rama principal (main) descubren que solo algunos commits específicos de la rama de una funcionalidad deben aplicarse a producción. ¿Cómo podría ayudar git cherry-pick en este caso? Explica los beneficios y posibles complicaciones.**
-aaaa
+`git cherry-pick` permite seleccionar commits específicos para aplicarlos en la rama principal, facilitando despliegues controlados en Scrum, evitando introducir código incompleto o no aprobado, aunque puede generar conflictos si los commits dependen de otros cambios no seleccionados.
 
 ### ejercicios prácticos
 #### 1. Simulación de un flujo de trabajo Scrum con git rebase y git merge
