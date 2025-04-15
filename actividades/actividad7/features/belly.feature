@@ -26,3 +26,13 @@ Característica: Característica del estómago
     Dado que he comido 25 pepinos
     Cuando espero "dos horas y treinta minutos"
     Entonces mi estómago debería gruñir
+  
+  Escenario: comer pocos pepinos y esperar en segundos
+    Dado que he comido 5 pepinos
+    Cuando espero 5 segundos
+    Entonces mi estómago debería gruñir
+
+  Escenario: Comer pepinos y esperar en minutos y segundos
+    Dado que he comido 30 pepinos
+    Cuando espero "1 hora y 30 minutos y 20 segundos"
+    Entonces mi estómago debería gruñir
