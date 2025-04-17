@@ -33,7 +33,13 @@ register_type(palabra=parsing_texto_a_float)
 
 @given('que he comido {cukes:palabra} pepinos')
 def step_given_eaten_cukes(context, cukes):
-    context.belly.comer(cukes)
+    context.error = None
+    try:
+        if not 0 < cukes:
+            raise ValueError("Hay una cantidad no valida de pepinos.")
+        context.belly.comer(cukes)
+    except ValueError as e:
+        context.error = e
 
 @when('espero {time_description}')
 @when('espero un tiempo aleatorio {time_description}')
@@ -62,7 +68,7 @@ def step_when_wait_time_description(context, time_description):
             primera_hora = convertir_palabra_a_numero(first_hour_word)
             segunda_hora = convertir_palabra_a_numero(second_hour_word)
             
-            total_time_in_hours = random.uniform(primera_hora,segunda_hora)
+            total_time_in_hours = random.randint(primera_hora + 1,segunda_hora)
 
         elif match_hours_min_sec:
             hours_word = match_hours_min_sec.group(1) or "0"
@@ -86,3 +92,7 @@ def step_then_belly_should_growl(context):
 @then('mi estómago no debería gruñir')
 def step_then_belly_should_not_growl(context):
     assert not context.belly.esta_gruñendo(), "Se esperaba que el estómago no gruñera, pero lo hizo."
+
+@then('debería ocurrir un error de cantidad negativa')
+def step_then_belly_should_have_cukes(context):
+    assert not context.error is not None, "Se esperaba un error por cantidad negativa, y ocurrió."
