@@ -51,22 +51,23 @@ def step_when_wait_time_description(context, time_description):
         patter_hour_btwn_hour = re.compile(r'(?:entre|between)\s+(\w+)\s*(\w+)\s*(?:horas?|hours?)')
         pattern_hours_min_sec = re.compile(r'(?:(\w+)\s*(?:horas?|hours?))?\s*(?:(\w+)\s*(?:minutos?|minutes?))?\s*(?:(\w+)\s*(?:segundos?|seconds?))?')
         
-        match_hours_min_sec = patter_hour_btwn_hour.match(time_description)
-        match_hour_btwn_hour = pattern_hours_min_sec.match(time_description)
+        match_hour_btwn_hour = patter_hour_btwn_hour.match(time_description)
+        match_hours_min_sec = pattern_hours_min_sec.match(time_description)
+
         
-        if match_hours_min_sec:
-            first_hour_word = match_hours_min_sec.group(1) or "0"
-            second_hour_word = match_hours_min_sec.group(2) or "0"
+        if match_hour_btwn_hour:
+            first_hour_word = match_hour_btwn_hour.group(1) or "0"
+            second_hour_word = match_hour_btwn_hour.group(2) or "0"
 
             primera_hora = convertir_palabra_a_numero(first_hour_word)
             segunda_hora = convertir_palabra_a_numero(second_hour_word)
             
             total_time_in_hours = random.uniform(primera_hora,segunda_hora)
 
-        elif match_hour_btwn_hour:
-            hours_word = match_hour_btwn_hour.group(1) or "0"
-            minutes_word = match_hour_btwn_hour.group(2) or "0"
-            seconds_word = match_hour_btwn_hour.group(3) or "0"
+        elif match_hours_min_sec:
+            hours_word = match_hours_min_sec.group(1) or "0"
+            minutes_word = match_hours_min_sec.group(2) or "0"
+            seconds_word = match_hours_min_sec.group(3) or "0"
 
             hours = convertir_palabra_a_numero(hours_word)
             minutes = convertir_palabra_a_numero(minutes_word)
