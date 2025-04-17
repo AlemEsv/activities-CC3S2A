@@ -47,8 +47,8 @@ def step_when_wait_time_description(context, time_description):
     time_description = time_description.strip('"').lower()
 
     time_description = time_description.replace('y', ' ') #spanish
-    time_description = time_description.replace('y', ' ') # advanced
-    time_description = time_description.replace(',', ' ') # english
+    time_description = time_description.replace(',', ' ') # advanced
+    time_description = time_description.replace('and', ' ') # english
 
     time_description = time_description.strip()
 
@@ -86,6 +86,10 @@ def step_when_wait_time_description(context, time_description):
 
     context.belly.esperar(total_time_in_hours)
 
+@when('pregunto cuántos pepinos más puedo comer')
+def step_when_ask_how_many_cukes_more(context):
+    context.cukes_remaining = context.belly.calcular_pepinos_restantes()
+
 @then('mi estómago debería gruñir')
 def step_then_belly_should_growl(context):
     assert context.belly.esta_gruñendo(), "Se esperaba que el estómago gruñera, pero no lo hizo."
@@ -96,4 +100,13 @@ def step_then_belly_should_not_growl(context):
 
 @then('debería ocurrir un error de cantidad negativa')
 def step_then_belly_should_have_cukes(context):
-    assert not context.error is not None, "Se esperaba un error por cantidad negativa, y ocurrió."
+    assert context.error is not None, "Se esperaba un error por cantidad negativa, y ocurrió."
+
+@then('debería haber comido {cukes:palabra} pepinos')
+def step_then_belly_cukes_count(context, cukes):
+    total_cukes = context.belly.pepinos_comidos
+    assert total_cukes == cukes, f"Se esperaba haber comido {cukes} pepinos, pero se comieron {total_cukes}."
+
+@then('debería decirme que puedo comer {cukes:palabra} pepinos más')
+def step_then_belly_cukes_max(context, cukes):
+    assert context.cukes_remaining >= cukes, f"Se esperaba comer {cukes} pepinos, pero puede comer {context.cukes_remaining} pepinos más."

@@ -2,3 +2,4 @@
 act7/
 venv
 .pytest_cache
+.dist

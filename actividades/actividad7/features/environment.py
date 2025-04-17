@@ -1,4 +1,4 @@
-from src.belly import Belly
+from src.belly import Belly 
 
 def before_scenario(context, scenario):
-    context.belly = Belly()
+    context.belly = Belly()  
