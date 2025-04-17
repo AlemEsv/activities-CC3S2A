@@ -55,3 +55,13 @@ Característica: Comportamiento del Estómago
   Escenario: Manejar una cantidad negativa de pepinos
   Dado que he comido 5 pepinos
   Entonces debería ocurrir un error de cantidad negativa
+
+  Escenario: Manejar tiempos complejos 1
+  Dado que he comido 50 pepinos
+  Cuando espero "1 hora, 30 minutos y 45 segundos"
+  Entonces mi estómago debería gruñir
+
+  Escenario: Manejar tiempos complejos 2
+  Dado que he comido 10 pepinos
+  Cuando espero "4 hora, 2 minutos y 50 segundos"
+  Entonces mi estómago no debería gruñir

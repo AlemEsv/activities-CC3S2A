@@ -46,8 +46,9 @@ def step_given_eaten_cukes(context, cukes):
 def step_when_wait_time_description(context, time_description):
     time_description = time_description.strip('"').lower()
 
-    time_description = time_description.replace('y', ' ') # español
-    time_description = time_description.replace('and', ' ') # ingles
+    time_description = time_description.replace('y', ' ') #spanish
+    time_description = time_description.replace('y', ' ') # advanced
+    time_description = time_description.replace(',', ' ') # english
 
     time_description = time_description.strip()
 
