@@ -95,3 +95,10 @@ class Carrito:
         Devuelve la lista de items en el carrito.
         """
         return self.items
+    
+    def vaciar(self):
+        """
+        Elimina todos los items del carrito.
+        """
+        self.items.clear()
+        
