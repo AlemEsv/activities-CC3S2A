@@ -11,3 +11,8 @@ def test_gruñir_sino_he_comido_muchos_pepinos():
     belly.comer(1)
     belly.esperar(20.1)
     assert belly.esta_gruñendo() == False
+
+def test_pepinos_restantes():
+    belly = Belly()
+    belly.comer(15)
+    assert belly.pepinos_comidos == 15

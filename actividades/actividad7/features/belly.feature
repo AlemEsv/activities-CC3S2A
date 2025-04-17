@@ -65,3 +65,5 @@ Característica: Comportamiento del Estómago
   Dado que he comido 10 pepinos
   Cuando espero "54 hora, 2 minutos y 50 segundos"
   Entonces mi estómago no debería gruñir
+
+Característica: 
