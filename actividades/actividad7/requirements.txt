@@ -1,9 +1,11 @@
 behave==1.2.6
 colorama==0.4.6
+coverage==7.8.0
 iniconfig==2.1.0
 packaging==24.2
 parse==1.20.2
 parse_type==0.6.4
 pluggy==1.5.0
 pytest==8.3.5
+pytest-cov==6.1.1
 six==1.17.0

@@ -63,5 +63,5 @@ Característica: Comportamiento del Estómago
 
   Escenario: Manejar tiempos complejos 2
   Dado que he comido 10 pepinos
-  Cuando espero "4 hora, 2 minutos y 50 segundos"
+  Cuando espero "54 hora, 2 minutos y 50 segundos"
   Entonces mi estómago no debería gruñir
