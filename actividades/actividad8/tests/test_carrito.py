@@ -224,3 +224,34 @@ def test_costo_de_productos_nulo():
 
     # Assert
     assert carrito.calcular_total() == 0
+
+def test_aplicar_descuento_condicional_true():
+    """
+    AAA:
+    Arrange: Crear un carrito y agregarle 2 productos.
+    Act y Assert: Verificar si se aplica el descuento condicional.
+    """
+    # Arrange
+    carrito = Carrito()
+    producto1 = ProductoFactory(nombre="Cafetera",precio=500.0)
+    producto2 = ProductoFactory(nombre="Videojuego",precio=200.0)  #total = 700.0
+    carrito.agregar_producto(producto1,cantidad=1)
+    carrito.agregar_producto(producto2,cantidad=1)
+    # Act y Assert
+    assert carrito.aplicar_descuento_condicional(20,500) == (700*0.8)
+
+def test_aplicar_descuento_condicional_false():
+    """
+    AAA:
+    Arrange: Crear un carrito y agregarle 2 productos.
+    Act y Assert: Verificar que no se aplique el descuento condicional.
+    """
+    # Arrange
+    carrito = Carrito()
+    producto1 = ProductoFactory(nombre="Patinete",precio=500.0)
+    producto2 = ProductoFactory(nombre="Armario",precio=1500.0)  #total = 2000.0
+    carrito.agregar_producto(producto1,cantidad=1)
+    carrito.agregar_producto(producto2,cantidad=1)
+    # Act y Assert
+    assert carrito.aplicar_descuento_condicional(50,3000) == 2000
+

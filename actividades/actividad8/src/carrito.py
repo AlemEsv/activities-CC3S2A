@@ -83,6 +83,16 @@ class Carrito:
         total = self.calcular_total()
         descuento = total * (porcentaje / 100)
         return total - descuento
+    
+    def aplicar_descuento_condicional(self,porcentaje,minimo):
+        """
+        Aplicar descuento condicional a una cantidad minima.
+        El porcentaje debe estar entre 0 y 100.
+        """
+        if self.calcular_total() >= minimo:
+            return self.aplicar_descuento(porcentaje)
+        else:
+            return self.calcular_total()
 
     def contar_items(self):
         """
