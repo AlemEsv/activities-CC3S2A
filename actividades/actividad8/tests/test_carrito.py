@@ -254,3 +254,29 @@ def test_items_ordenados(carrito,
     assert verificar_orden_nombre == sorted(verificar_orden_nombre)
     assert verificar_orden_precio == sorted(verificar_orden_precio)
 
+def test_calcular_impuestos(carrito, producto_generico):
+    """
+    Red: Se espera que calcular_impuestos retorne el valor del impuesto.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=4)  # Total = 400
+
+    # Act
+    impuesto = carrito.calcular_impuestos(10)  # 10% de 400 = 40
+
+    # Assert
+    assert impuesto == 40.00
+
+def test_aplicar_cupon_con_limite(carrito, producto_generico):
+    """
+    Red: Se espera que al aplicar un cupón, el descuento no supere el límite máximo.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=2)  # Total = 200
+
+    # Act
+    total_con_cupon = carrito.aplicar_cupon(20, 30)  # 20% de 200 = 40, pero límite es 30
+
+    # Assert
+    assert total_con_cupon == 170.00
+
