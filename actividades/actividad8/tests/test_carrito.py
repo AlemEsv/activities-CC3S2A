@@ -274,4 +274,53 @@ def test_agregar_productos_dentro_del_stock():
     # Assert
     assert producto.stock < 5
 
-    
+def test_items_ordenados_por_nombre():
+    """
+    AAA:
+    Arrange: Crear un carrito y agregar varios productos.
+    Act: ordenar la lista de productos que están en el carrito
+    Assert: Verificar si la lista está ordenada alfabéticamente.
+    """
+
+    # Arrange
+    carrito = Carrito()
+    producto1 = ProductoFactory(nombre="Pelota",precio=10.0,stock=5)
+    producto2 = ProductoFactory(nombre="Perfume",precio=100.0,stock=5)
+    producto3 = ProductoFactory(nombre="Arbol de navidad",precio=150.0,stock=5)
+    producto4 = ProductoFactory(nombre="Vestido",precio=300.0,stock=5)
+
+    carrito.agregar_producto(producto1,cantidad=1)
+    carrito.agregar_producto(producto2,cantidad=1)
+    carrito.agregar_producto(producto3,cantidad=1)
+    carrito.agregar_producto(producto4,cantidad=1)
+    # Act
+    items_ordenados = carrito.obtener_items_ordenados("nombre")
+    verificar_orden = [item.producto.nombre for item in items_ordenados] # lista de nombres ordenados
+    # Assert
+    assert verificar_orden == sorted(verificar_orden)
+
+def test_items_ordenados_por_precio():
+    """
+    AAA:
+    Arrange: Crear un carrito y agregar varios productos.
+    Act: ordenar la lista de productos que están en el carrito
+    Assert: Verificar si la lista está ordenada de más barato a más caro.
+    """
+
+    # Arrange
+    carrito = Carrito()
+    producto1 = ProductoFactory(nombre="Cañon",precio=1050.0,stock=10)
+    producto2 = ProductoFactory(nombre="Pelota de voley",precio=55.0,stock=5)
+    producto3 = ProductoFactory(nombre="Caja de carton",precio=2.0,stock=50)
+    producto4 = ProductoFactory(nombre="Zapatillas",precio=600.0,stock=5)
+
+    carrito.agregar_producto(producto1,cantidad=1)
+    carrito.agregar_producto(producto2,cantidad=1)
+    carrito.agregar_producto(producto3,cantidad=1)
+    carrito.agregar_producto(producto4,cantidad=1)
+    # Act
+    items_ordenados = carrito.obtener_items_ordenados("precio")
+    verificar_orden = [item.producto.precio for item in items_ordenados] # lista de precios ordenados
+    # Assert
+    assert verificar_orden == sorted(verificar_orden)
+

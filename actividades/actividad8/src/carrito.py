@@ -110,6 +110,20 @@ class Carrito:
         Retorna el número total de items (sumando las cantidades) en el carrito.
         """
         return sum(item.cantidad for item in self.items)
+    
+    def obtener_items_ordenados(self, criterio: str):
+        """
+        Ordena los items de un carrito dependiendo del criterio puesto.
+        Luego retorna la lista ordenada
+        'precio' = ordena por precio (menor a mayor)
+        'nombre' = ordena por nombre (A a Z)
+        """
+        if criterio == "precio":
+            return sorted(self.items, key=lambda item: item.producto.precio)
+        elif criterio == "nombre":
+            return sorted(self.items, key=lambda item: item.producto.nombre)
+        else:
+            raise ValueError("Selecciona un criterio adecuado.")
 
     def obtener_items(self):
         """
