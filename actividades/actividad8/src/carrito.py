@@ -1,12 +1,13 @@
 # src/carrito.py
 
 class Producto:
-    def __init__(self, nombre, precio):
+    def __init__(self, nombre, precio, stock):
         self.nombre = nombre
         self.precio = precio
+        self.stock = stock
 
     def __repr__(self):
-        return f"Producto({self.nombre}, {self.precio})"
+        return f"Producto({self.nombre}, {self.precio}, {self.stock})"
 
 
 class ItemCarrito:
@@ -29,9 +30,12 @@ class Carrito:
         """
         Agrega un producto al carrito. Si el producto ya existe, incrementa la cantidad.
         """
+        if producto.stock == 0:
+            raise ValueError("No hay stock para este producto.")
         for item in self.items:
             if item.producto.nombre == producto.nombre:
                 item.cantidad += cantidad
+                producto.stock -= 1
                 return
         self.items.append(ItemCarrito(producto, cantidad))
 
@@ -40,10 +44,13 @@ class Carrito:
         Remueve una cantidad del producto del carrito.
         Si la cantidad llega a 0, elimina el item.
         """
+        if producto.stock == 0:
+            raise ValueError("No hay stock para este producto.")
         for item in self.items:
             if item.producto.nombre == producto.nombre:
                 if item.cantidad > cantidad:
                     item.cantidad -= cantidad
+                    producto.stock += 1
                 elif item.cantidad == cantidad:
                     self.items.remove(item)
                 else:
@@ -58,12 +65,16 @@ class Carrito:
         """
         if nueva_cantidad < 0:
             raise ValueError("La cantidad no puede ser negativa")
+        if producto.stock < nueva_cantidad:
+            raise ValueError("No hay stock suficiente.")
         for item in self.items:
             if item.producto.nombre == producto.nombre:
                 if nueva_cantidad == 0:
                     self.items.remove(item)
+                    producto.stock += 1
                 else:
                     item.cantidad = nueva_cantidad
+                    producto.stock -= nueva_cantidad
                 return
         raise ValueError("Producto no encontrado en el carrito")
 

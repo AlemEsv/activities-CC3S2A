@@ -255,3 +255,23 @@ def test_aplicar_descuento_condicional_false():
     # Act y Assert
     assert carrito.aplicar_descuento_condicional(50,3000) == 2000
 
+def test_agregar_productos_dentro_del_stock():
+    """
+    AAA:
+    Arrange: Crear un carrito y agregar un producto.
+    Act: actualizar la cantidad del producto agregado sin que pase el stock 
+    Assert: Verificar sino se agota el stock del producto. 
+    """
+
+    # Arrange
+    carrito = Carrito()
+    producto = ProductoFactory(nombre="Pastel de chocolate",precio=30.0,stock=5)
+    carrito.agregar_producto(producto,cantidad=1)
+    
+    # Act
+    carrito.actualizar_cantidad(producto,4)
+
+    # Assert
+    assert producto.stock < 5
+
+    
