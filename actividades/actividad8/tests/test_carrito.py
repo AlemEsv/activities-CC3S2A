@@ -77,24 +77,31 @@ def test_remover_producto_completo(carrito,producto_generico):
     items = carrito.obtener_items()
     assert len(items) == 0
 
-
-def test_actualizar_cantidad_producto(carrito,producto_generico):
+@pytest.mark.parametrize(
+        "nueva_cantidad, excepcion",
+        [(5, False),(0, False),(-1, True)]
+)
+def test_actualizar_cantidad_producto(carrito,producto_generico, nueva_cantidad, excepcion):
     """
     AAA:
     Arrange: Se crea un carrito y se agrega un producto.
-    Act: Se actualiza la cantidad del producto a 5.
+    Act: Se actualiza la cantidad del producto.
     Assert: Se verifica que la cantidad se actualiza correctamente.
     """
     # Arrange
     carrito.agregar_producto(producto_generico, cantidad=1)
     
-    # Act
-    carrito.actualizar_cantidad(producto_generico, nueva_cantidad=5)
-    
-    # Assert
-    items = carrito.obtener_items()
-    assert len(items) == 1
-    assert items[0].cantidad == 5
+    # Act y Assert
+    if excepcion:
+        with pytest.raises(ValueError):
+            carrito.actualizar_cantidad(producto_generico, nueva_cantidad)
+    else:
+        carrito.actualizar_cantidad(producto_generico,nueva_cantidad)
+        items = carrito.obtener_items()
+        if nueva_cantidad == 0:
+            assert len(items) == 0
+        else:
+            assert items[0].cantidad == nueva_cantidad
 
 
 def test_actualizar_cantidad_a_cero_remueve_producto(carrito,producto_generico):
@@ -132,22 +139,31 @@ def test_calcular_total(carrito, producto_generico, producto_generico_2):
     # Assert
     assert total == 320.00
 
-
-def test_aplicar_descuento(carrito, producto_generico):
+@pytest.mark.parametrize(
+    "cantidad, porcentaje_descuento, total_esperado",
+    [
+        (2, 10, 180.00),  # 200 - 10% = 180
+        (3, 20, 240.00),  # 300 - 20% = 240
+        (1, 50, 50.00),   # 100 - 50% = 50
+        (5, 0, 500.00),   # no hay descuento
+        (4, 100, 0.00)    # total 0
+    ]
+)
+def test_aplicar_descuento(carrito, producto_generico, cantidad, porcentaje_descuento, total_esperado):
     """
     AAA:
     Arrange: Se crea un carrito y se agrega un producto con una cantidad determinada.
-    Act: Se aplica un descuento del 10% al total.
+    Act: Se aplica un descuento al total.
     Assert: Se verifica que el total con descuento sea el correcto.
     """
     # Arrange
-    carrito.agregar_producto(producto_generico, cantidad=2)  # Total 200
+    carrito.agregar_producto(producto_generico, cantidad=cantidad)
     
     # Act
-    total_con_descuento = carrito.aplicar_descuento(10)
+    total_con_descuento = carrito.aplicar_descuento(porcentaje_descuento)
     
     # Assert
-    assert total_con_descuento == 180.00
+    assert total_con_descuento == total_esperado
 
 
 def test_aplicar_descuento_limites(carrito,producto_generico):
@@ -181,22 +197,6 @@ def test_carrito_vacio(carrito, producto_generico,producto_generico_2):
 
     # Assert
     assert carrito.obtener_items() == []
-
-def test_costo_de_productos_nulo(carrito, producto_generico, producto_generico_2):
-    """
-    AAA:
-    Arrange: Se crea un carrito y se le agrega 2 productos.
-    Act: Se vacía el carrito.
-    Assert: Se verifica si el carrito sin items retornará un total igual a 0.
-    """
-    # Arrange
-    carrito.agregar_producto(producto_generico,cantidad=1)
-    carrito.agregar_producto(producto_generico_2,cantidad=1)
-
-    # Act
-    carrito.vaciar()
-
-    # Assert
     assert carrito.calcular_total() == 0
 
 def test_aplicar_descuento_condicional(carrito,producto_generico,producto_generico_2):
@@ -230,7 +230,7 @@ def test_agregar_productos_dentro_del_stock(carrito, producto_generico):
     # Assert
     assert producto_generico.stock < 5
 
-def test_items_ordenados_por_nombre(carrito, 
+def test_items_ordenados(carrito, 
     producto_generico,producto_generico_2,producto_generico_3,producto_generico_4):
     """
     AAA:
@@ -245,29 +245,12 @@ def test_items_ordenados_por_nombre(carrito,
     carrito.agregar_producto(producto_generico_3,cantidad=1)
     carrito.agregar_producto(producto_generico_4,cantidad=1)
     # Act
-    items_ordenados = carrito.obtener_items_ordenados("nombre")
-    verificar_orden = [item.producto.nombre for item in items_ordenados] # lista de nombres ordenados
+    items_ordenados_nombre = carrito.obtener_items_ordenados("nombre")
+    verificar_orden_nombre = [item.producto.nombre for item in items_ordenados_nombre] # nombres ordenados
+
+    items_ordenados_precio = carrito.obtener_items_ordenados("precio")
+    verificar_orden_precio = [item.producto.precio for item in items_ordenados_precio] # precios ordenados
     # Assert
-    assert verificar_orden == sorted(verificar_orden)
-
-def test_items_ordenados_por_precio(carrito, 
-    producto_generico,producto_generico_2,producto_generico_3,producto_generico_4):
-    """
-    AAA:
-    Arrange: Crear un carrito y agregar varios productos.
-    Act: ordenar la lista de productos que están en el carrito
-    Assert: Verificar si la lista está ordenada de más barato a más caro.
-    """
-
-    # Arrange
-    carrito.agregar_producto(producto_generico,cantidad=1)
-    carrito.agregar_producto(producto_generico_2,cantidad=1)
-    carrito.agregar_producto(producto_generico_3,cantidad=1)
-    carrito.agregar_producto(producto_generico_4,cantidad=1)
-
-    # Act
-    items_ordenados = carrito.obtener_items_ordenados("precio")
-    verificar_orden = [item.producto.precio for item in items_ordenados] # lista de precios ordenados
-    # Assert
-    assert verificar_orden == sorted(verificar_orden)
+    assert verificar_orden_nombre == sorted(verificar_orden_nombre)
+    assert verificar_orden_precio == sorted(verificar_orden_precio)
 
