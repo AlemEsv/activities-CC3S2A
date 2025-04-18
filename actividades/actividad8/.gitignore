@@ -2,3 +2,4 @@
 /act8
 .coverage
 /htmlcov
+.pytest_cache
