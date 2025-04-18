@@ -8,7 +8,12 @@ class Producto:
 
     def __repr__(self):
         return f"Producto({self.nombre}, {self.precio}, {self.stock})"
-
+    
+    def _buscar_item(self, producto):
+        for item in self.items:
+            if item.producto.nombre == producto.nombre:
+                return item
+        return None
 
 class ItemCarrito:
     def __init__(self, producto, cantidad=1):
@@ -30,16 +35,23 @@ class Carrito:
         """
         Agrega un producto al carrito. Si el producto ya existe, incrementa la cantidad.
         """
-        if producto.stock == 0:
-            raise ValueError("No hay stock para este producto.")
+        # Verifica el stock disponible
+        total_en_carrito=0
+        for item in self.items:
+            if item.producto.nombre == producto.nombre:
+                total_en_carrito = item.cantidad
+                break
+        if total_en_carrito + cantidad > producto.stock:
+            raise ValueError("Cantidad a agregar excede el stock")
+        
+        # Si el producto ya existe, incrementa la cantidad
         for item in self.items:
             if item.producto.nombre == producto.nombre:
                 item.cantidad += cantidad
-                producto.stock -= 1
                 return
         self.items.append(ItemCarrito(producto, cantidad))
 
-    def remover_producto(self, producto, cantidad=1):
+    def remover_producto(self, producto, cantidad):
         """
         Remueve una cantidad del producto del carrito.
         Si la cantidad llega a 0, elimina el item.
