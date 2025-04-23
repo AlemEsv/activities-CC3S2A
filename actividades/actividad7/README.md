@@ -26,7 +26,7 @@ import re
 ##### Modificación en la función `step_with_time_description()` para que pueda leer entradas de **Cuando espero un tiempo aleatorio...** donde debo usar otro patrón que coloque valores aleatorios entre dos horas en especifico. 
 ![](img/img8.png)
 #### Salida Gherkin:
-![]((img/img9.png))
+![](img/img9.png)
 ## Ejercicio 5: **Validación de cantidades no válidas**
 ##### Modificación en `step_given_eaten_cukes(context, cukes)` para que no acepte valores negativos a la hora de comer pepinos.
 ##### Busca un error y lo guarda para ser posteriormente.
