@@ -1,18 +1,25 @@
 # Explorando diferentes formas de fusionar en Git
-# Parte teórica sobre las formas de Fusión
-# Fusión Fast-forward
-La fusión Fast-Forward 
+### **Objetivo de aprendizaje:**  
+En esta actividad, exploraremos el proceso de fusionar dos ramas en Git utilizando tres métodos diferentes: fast-forward, no-fast-forward y squash. A través de los ejemplos, comprenderás cómo funcionan y cuándo es recomendable utilizar cada tipo de fusión.
+#### Contexto
+En el mundo del desarrollo de software, Git se ha consolidado como una herramienta esencial para la gestión de versiones, permitiendo a equipos y desarrolladores individuales llevar un control preciso de los cambios en el código fuente.
+Dentro de Git, las fusiones juegan un rol fundamental al combinar el trabajo de diferentes ramas, integrando características, correcciones y mejoras al código base. 
+## 1. Fusión Fast-forward (git merge --ff)
+La fusión **fast-forward** ocurre cuando la rama de destino no tiene commits adicionales desde que se creó la rama a fusionar, lo que permite avanzar directamente el hash de la rama de destino hasta el último commit de la rama fuente, sin crear un nuevo commit de fusión.
+Este tipo de fusión no altera el historial (log), por lo que seguirá permaneciendo de forma lineal.
 ### a. Pasos prácticos: 
 ![](imagenes/pasos_practicos-FastForward.png)
 ### b. Mostrar la estructura de commits resultante
 ![](imagenes/pregunta-FastForward.png)
-# Fusión No-Fast-forward
+## 2. Fusión No-Fast-forward
+La fusión **no fast-forward** es utilizada cuando se desea conservar explícitamente un commit de fusión, incluso si una fusión **fast-forward** sería posible; esto permite mantener un historial con ramas claramente diferenciadas.
 ### a. Pasos prácticos
 ![](imagenes/pasos_practicos-NoFastForward.png)
 ### b. Muestra el log de commits resultante
 ![](imagenes/pregunta1-NoFastForward.png)
 ![](imagenes/pregunta2-NoFastForward.png)
-# Fusión squash
+## 3. Fusión squash
+la fusión **squash** combina todos los commits de una rama en uno solo antes de fusionarla con la rama principal, lo que da como resultado un historial más limpio y lineal, aunque se pierde el detalle de los commits individuales originales.
 ### a. Pasos prácticos
 ![](imagenes/pasos_practicos-Squash.png)
 ### b. ¿Cuál es la estructura de commits?
