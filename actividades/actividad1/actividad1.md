@@ -2,6 +2,7 @@
 ## 1. Por qué surgió la necesidad de DevOps en el desarrollo de software?
 DevOps surgió para dar un enfoque laboral más interactivo, haciendo que diferentes partes de un equipo deban colaborar entre ellas para poder progresar de manera efectiva, mejorando la comunicación entre partes y haciendo que el desarrollo del software deje de estar aislado en cada equipo.
 DevOps propone un enfoque colaborativo e integral, donde desarrollo, operaciones, seguridad y otras áreas trabajan juntas desde el inicio del ciclo de vida del software.Es un cambio cultural y técnico que busca acelerar la innovación sin comprometer la calidad.
+
 ![1](img/devops.png)
 ## 2. Explica cómo la falta de comunicación y coordinación entre los equipos de desarrollo y operaciones en el pasado llevó a la creación de DevOps.
 Por culpa de la falta de comunicación se vio como varias empresas dedicadas al desarrollo de software no eran capaces de gestionar bien sus recursos, ocasionando trabajos disparejos entre áreas, haciendo que haya una demora en la entrega del software, baja calidad en ciertas partes del equipo, entre otros problemas.
@@ -20,7 +21,7 @@ Permite definir y gestionar entornos de infraestructura mediante archivos de con
 ## 3. ¿Cuál es la diferencia entre monitoreo y observabilidad? ¿Por qué es crucial la observabilidad en sistemas complejos?
 **El monitoreo** recolecta datos de métricas específicas y conocidas de antemano (como uso de CPU, memoria, etc.), mientras que **la observabilidad** es la capacidad de entender lo que está ocurriendo dentro del sistema, incluso ante situaciones imprevistas, utilizando métricas y logs. En sistemas complejos y distribuidos, la observabilidad es esencial para poder detectar cuellos de botella, anomalías y errores de forma proactiva.
 ### Ejemplo de métricas
-![2](img/metrica.png)
+![2](img/metricas.png)
 ## 4. ¿Cómo puede la experiencia del desarrollador impactar el éxito de DevOps en una organización?
 Mjora la productividad, colaboración y motivación de los equipos. Al ofrecer herramientas intuitivas, flujos de trabajo eficientes y automatización de tareas repetitivas, los desarrolladores pueden centrarse más en crear valor. Esto acelera la entrega de software de calidad y facilita la adopción de prácticas DevOps en toda la organización.
 ## 5. Describe cómo InnerSource puede ayudar a reducir silos dentro de una organización.
