@@ -8,7 +8,7 @@ Dentro de Git, las fusiones juegan un rol fundamental al combinar el trabajo de 
 - [Fusión Fast-forward](#1-fusión-fast-forward)
 - [Fusión Fusión No-Fast-forward](#2-fusión-no-fast-forward)
 - [Fusión squash](#3-fusión-squash)
-- [Ejercicios](Ejercicios)
+- [Ejercicios](ejercicios)
 ## 1. Fusión Fast-forward
 La fusión **fast-forward** ocurre cuando la rama de destino no tiene commits adicionales desde que se creó la rama a fusionar, lo que permite avanzar directamente el hash de la rama de destino hasta el último commit de la rama fuente, sin crear un nuevo commit de fusión.
 Este tipo de fusión no altera el historial (log), por lo que seguirá permaneciendo de forma lineal.
