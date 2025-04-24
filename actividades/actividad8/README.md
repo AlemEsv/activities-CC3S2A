@@ -47,7 +47,7 @@ class Carrito:
     # Assert
     assert carrito.obtener_items() == []
 ```
-![](img/img2.png)
+![](img/prueba1.png)
 ### Prueba #2: verificar si el carrito vacío no retorna un total de elementos
 ```python
   def test_carrito_vacio():
@@ -70,7 +70,7 @@ class Carrito:
     # Assert
     assert carrito.calcular_total() == 0
 ```
-![](img/img3.png)
+![](img/prueba2.png)
 
 ## Ejercicio 2: Descuento por compra mínima
 **Objetivo:**  
@@ -370,7 +370,7 @@ def test_aplicar_descuento(carrito, producto_generico, cantidad, porcentaje_desc
     assert total_con_descuento == total_esperado
 ```
 
-![](img/img31.png)
+![](img/prueba3.png)
 
 ## Prueba #2: Parametrizando pruebas para el método *actualizar cantidades*:
 ```python
@@ -401,7 +401,7 @@ def test_actualizar_cantidad_producto(carrito,producto_generico, nueva_cantidad,
             assert items[0].cantidad == nueva_cantidad
 ```
 
-![](img/img32.png)
+![](img/prueba4.png)
 
 # Ejercicio 7: Calcular impuestos en el carrito
 **Objetivo:**  
@@ -422,7 +422,7 @@ def test_calcular_impuestos(carrito, producto_generico):
     # Assert
     assert impuesto == 40.00
 ```
-![](img/img33.png)
+![](img/prueba5.png)
 ### Green:
 En `src/carrito.py`, añade el método de forma mínima para que la prueba pase
 ```python
@@ -430,7 +430,7 @@ def calcular_impuestos(self, porcentaje):
   total = self.calcular_total()
   return total * (porcentaje / 100)
 ```
-![](img/img34.png)
+![](img/prueba6.png)
 ### Refactor:
 - Agrega validaciones para que el porcentaje esté en un rango razonable (por ejemplo, entre 0 y 100).  
 - Añade documentación al método.
@@ -454,7 +454,7 @@ def calcular_impuestos(self, porcentaje):
         return total * (porcentaje / 100)
 ```
 
-![](img/img35.png)
+![](img/prueba7.png)
 
 # Ejercicio 8: Aplicar cupón de descuento con límite máximo
 **Objetivo:**  
@@ -476,7 +476,7 @@ def test_aplicar_cupon_con_limite(carrito, producto_generico):
     assert total_con_cupon == 170.00
 ```
 
-![](img/img36.png)
+![](img/prueba8.png)
 
 ### Green:
 En `src/carrito.py`, añade un método para aplicar el cupón de descuento de forma básica
@@ -488,7 +488,7 @@ def aplicar_cupon(self, descuento_porcentaje, descuento_maximo):
   return total - descuento_final
 ```
 
-![](img/img37.png)
+![](img/prueba9.png)
 
 ### Refactorizar:
 - Agrega validaciones para que el porcentaje de descuento y el máximo sean valores positivos.
@@ -516,7 +516,7 @@ def aplicar_cupon(self, descuento_porcentaje, descuento_maximo):
         return total - descuento_final
 ```
 
-![](img/img38.png)
+![](img/prueba10.png)
 
 # Ejercicio 9: Validación de stock al agregar productos (RGR)
 **Objetivo:**  
@@ -541,12 +541,12 @@ def test_agregar_producto_excede_stock(carrito, producto_generico):
         carrito.agregar_producto(producto_generico, cantidad=6)
 ```
 
-![](img/img39.png)
+![](img/prueba11.png)
 
 ### Green:
 Modifica el método `agregar_producto` en `Carrito` para que valide el stock:
 
-![](img/img40.png)
+![](img/prueba12.png)
 
 ### Refactor:
 - Centraliza la validación del stock en un método privado o en la clase `Producto` si es necesario.
