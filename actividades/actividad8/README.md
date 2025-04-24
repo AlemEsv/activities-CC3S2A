@@ -254,20 +254,86 @@ def producto_generico_4():
     return ProductoFactory(nombre="Camisa", precio=10.0, stock=2)
 ```
 ### Refactorización:
-![](img/img18.png)
-![](img/img19.png)
-![](img/img20.png)
-![](img/img21.png)
-![](img/img22.png)
-![](img/img23.png)
-![](img/img24.png)
-![](img/img25.png)
-![](img/img26.png)
-![](img/img27.png)
-![](img/img28.png)
-![](img/img29.png)
-![](img/img30.png)
+Esta refactorización ayuda a que el código del proyecto sea más legible, con menos lineas de código innecesarias.
+- Refactorización de algunos `tests`
+```python
+# tests/test_carrito.py
+import pytest
+from src.carrito import Carrito
+from src.factories import ProductoFactory
 
+def test_agregar_producto_nuevo(carrito, producto_generico):
+    """
+    AAA:
+    Arrange: Se crea un carrito y se genera un producto.
+    Act: Se agrega el producto al carrito.
+    Assert: Se verifica que el carrito contiene un item con el producto y cantidad 1.
+    """
+    
+    # Act
+    carrito.agregar_producto(producto_generico,cantidad=1)
+    
+    # Assert
+    items = carrito.obtener_items()
+    assert len(items) == 1
+    assert items[0].producto.nombre == producto_generico.nombre
+    assert items[0].cantidad == 1
+
+
+def test_remover_producto(carrito,producto_generico):
+    """
+    AAA:
+    Arrange: Se crea un carrito y se agrega un producto con cantidad 3.
+    Act: Se remueve una unidad del producto.
+    Assert: Se verifica que la cantidad del producto se reduce a 2.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=3)
+    
+    # Act
+    carrito.remover_producto(producto_generico, cantidad=1)
+    
+    # Assert
+    items = carrito.obtener_items()
+    assert len(items) == 1
+    assert items[0].cantidad == 2
+
+def test_actualizar_cantidad_producto(carrito,producto_generico):
+    """
+    AAA:
+    Arrange: Se crea un carrito y se agrega un producto.
+    Act: Se actualiza la cantidad del producto.
+    Assert: Se verifica que la cantidad se actualiza correctamente.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=1)
+    
+    # Act
+    carrito.actualizar_cantidad(producto_generico, nueva_cantidad=5)
+
+    # Assert
+    items = carrito.obtener_items()
+    assert len(items) == 1
+    assert items[0].cantidad == 5
+
+def test_calcular_total(carrito, producto_generico, producto_generico_2):
+    """
+    AAA:
+    Arrange: Se crea un carrito y se agregan varios productos con distintas cantidades.
+    Act: Se calcula el total del carrito.
+    Assert: Se verifica que el total es la suma correcta de cada item (precio * cantidad).
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=2)  # Total 200
+    carrito.agregar_producto(producto_generico_2, cantidad=1)  # Total 120
+    
+    # Act
+    total = carrito.calcular_total()
+    
+    # Assert
+    assert total == 320.00
+# (. . .)
+```
 # Ejercicio 6: Pruebas parametrizadas
 **Objetivo:**  
 Utiliza la marca `@pytest.mark.parametrize` para crear pruebas que verifiquen múltiples escenarios de descuento o actualización de cantidades.
@@ -276,37 +342,180 @@ Utiliza la marca `@pytest.mark.parametrize` para crear pruebas que verifiquen m�
 - De igual forma, para actualizar cantidades: prueba con diferentes valores (válidos e inválidos) y verifica que se lance la excepción en los casos correspondientes.
 
 ### Prueba #1: Parametrizando pruebas para el método *aplicar descuento*:
+```python
+@pytest.mark.parametrize(
+    "cantidad, porcentaje_descuento, total_esperado",
+    [
+        (2, 10, 180.00),  # 200 - 10% = 180
+        (3, 20, 240.00),  # 300 - 20% = 240
+        (1, 50, 50.00),   # 100 - 50% = 50
+        (5, 0, 500.00),   # no hay descuento
+        (4, 100, 0.00)    # total 0
+    ]
+)
+def test_aplicar_descuento(carrito, producto_generico, cantidad, porcentaje_descuento, total_esperado):
+    """
+    AAA:
+    Arrange: Se crea un carrito y se agrega un producto con una cantidad determinada.
+    Act: Se aplica un descuento al total.
+    Assert: Se verifica que el total con descuento sea el correcto.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=cantidad)
+    
+    # Act
+    total_con_descuento = carrito.aplicar_descuento(porcentaje_descuento)
+    
+    # Assert
+    assert total_con_descuento == total_esperado
+```
+
 ![](img/img31.png)
+
 ## Prueba #2: Parametrizando pruebas para el método *actualizar cantidades*:
+```python
+@pytest.mark.parametrize(
+        "nueva_cantidad, excepcion",
+        [(5, False),(0, False),(-1, True)]
+)
+def test_actualizar_cantidad_producto(carrito,producto_generico, nueva_cantidad, excepcion):
+    """
+    AAA:
+    Arrange: Se crea un carrito y se agrega un producto.
+    Act: Se actualiza la cantidad del producto.
+    Assert: Se verifica que la cantidad se actualiza correctamente.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=1)
+    
+    # Act y Assert
+    if excepcion:
+        with pytest.raises(ValueError):
+            carrito.actualizar_cantidad(producto_generico, nueva_cantidad)
+    else:
+        carrito.actualizar_cantidad(producto_generico,nueva_cantidad)
+        items = carrito.obtener_items()
+        if nueva_cantidad == 0:
+            assert len(items) == 0
+        else:
+            assert items[0].cantidad == nueva_cantidad
+```
+
 ![](img/img32.png)
 
 # Ejercicio 7: Calcular impuestos en el carrito
 **Objetivo:**  
 Implementar un método `calcular_impuestos(porcentaje)` que retorne el valor del impuesto calculado sobre el total del carrito.
 #### Red:
-   Crea un nuevo archivo de pruebas (por ejemplo, `tests/test_impuestos.py`) y escribe una prueba que espere que, dado un carrito con un total de \$1000, al aplicar un 10% de impuestos se retorne \$100.
-   
+Crea un nuevo archivo de pruebas (por ejemplo, `tests/test_impuestos.py`) y escribe una prueba que espere que, dado un carrito con un total de \$1000, al aplicar un 10% de impuestos se retorne \$100.
+```python
+def test_calcular_impuestos(carrito, producto_generico):
+    """
+    Red: Se espera que calcular_impuestos retorne el valor del impuesto.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=4)  # Total = 400
+
+    # Act
+    impuesto = carrito.calcular_impuestos(10)  # 10% de 400 = 40
+
+    # Assert
+    assert impuesto == 40.00
+```
 ![](img/img33.png)
 ### Green:
-   En `src/carrito.py`, añade el método de forma mínima para que la prueba pase
+En `src/carrito.py`, añade el método de forma mínima para que la prueba pase
+```python
+def calcular_impuestos(self, porcentaje):
+  total = self.calcular_total()
+  return total * (porcentaje / 100)
+```
 ![](img/img34.png)
 ### Refactor:
 - Agrega validaciones para que el porcentaje esté en un rango razonable (por ejemplo, entre 0 y 100).  
 - Añade documentación al método.
+```python
+    def calcular_impuestos(self, porcentaje):
+        """
+            Calcula el valor de los impuestos basados en el porcentaje indicado.
+    
+        Args:
+            porcentaje (float): Porcentaje de impuesto a aplicar (entre 0 y 100).
+        
+        Returns:
+            float: Monto del impuesto.
+        
+        Raises:
+            ValueError: Si el porcentaje no está entre 0 y 100.
+    """
+        if porcentaje < 0 or porcentaje > 100:
+            raise ValueError("El porcentaje debe estar entre 0 y 100")
+        total = self.calcular_total()
+        return total * (porcentaje / 100)
+```
+
 ![](img/img35.png)
+
 # Ejercicio 8: Aplicar cupón de descuento con límite máximo
 **Objetivo:**  
 Implementar un método `aplicar_cupon(descuento_porcentaje, descuento_maximo)` que aplique un cupón de descuento al total del carrito, pero asegurándose de que el descuento no supere un valor máximo.
 #### Red:
-   Crea un archivo, por ejemplo, `tests/test_cupon.py` y escribe una prueba que verifique que, para un carrito con total \$400 y un cupón del 20% (lo que daría \$80), si el descuento máximo es \$50, el método retorne \$350.
+Crea un archivo, por ejemplo, `tests/test_cupon.py` y escribe una prueba que verifique que, para un carrito con total \$400 y un cupón del 20% (lo que daría \$80), si el descuento máximo es \$50, el método retorne \$350.
+```python
+def test_aplicar_cupon_con_limite(carrito, producto_generico):
+    """
+    Red: Se espera que al aplicar un cupón, el descuento no supere el límite máximo.
+    """
+    # Arrange
+    carrito.agregar_producto(producto_generico, cantidad=2)  # Total = 200
+
+    # Act
+    total_con_cupon = carrito.aplicar_cupon(20, 30)  # 20% de 200 = 40, pero límite es 30
+
+    # Assert
+    assert total_con_cupon == 170.00
+```
 
 ![](img/img36.png)
+
 ### Green:
 En `src/carrito.py`, añade un método para aplicar el cupón de descuento de forma básica
+```python
+def aplicar_cupon(self, descuento_porcentaje, descuento_maximo):
+  total = self.calcular_total()
+  descuento_calculado = total * (descuento_porcentaje / 100)
+  descuento_final = min(descuento_calculado, descuento_maximo)
+  return total - descuento_final
+```
+
 ![](img/img37.png)
+
 ### Refactorizar:
 - Agrega validaciones para que el porcentaje de descuento y el máximo sean valores positivos.
 - Separa la lógica de cálculo y validación, y documenta el método.
+```python
+def aplicar_cupon(self, descuento_porcentaje, descuento_maximo):
+        """
+        Aplica un cupón de descuento al total del carrito, asegurando que el descuento no exceda el máximo permitido.
+    
+        Args:
+            descuento_porcentaje (float): Porcentaje de descuento a aplicar.
+            descuento_maximo (float): Valor máximo de descuento permitido.
+    
+        Returns:
+            float: Total del carrito después de aplicar el cupón.
+    
+        Raises:
+            ValueError: Si alguno de los valores es negativo.
+        """
+        if descuento_porcentaje < 0 or descuento_maximo < 0:
+            raise ValueError("Los valores de descuento deben ser positivos.")
+        total = self.calcular_total()
+        descuento_calculado = total * (descuento_porcentaje / 100)
+        descuento_final = min(descuento_calculado, descuento_maximo)
+        return total - descuento_final
+```
+
 ![](img/img38.png)
 
 # Ejercicio 9: Validación de stock al agregar productos (RGR)
@@ -314,12 +523,47 @@ En `src/carrito.py`, añade un método para aplicar el cupón de descuento de fo
 Asegurarse de que al agregar un producto al carrito, no se exceda la cantidad disponible en stock.  
 #### Red:
 En un nuevo archivo, por ejemplo, `tests/test_stock.py`, escribe una prueba que verifique que si se intenta agregar más unidades de las disponibles, se lance una excepción.
+```python
+# tests/test_stock.py
+import pytest
+from src.carrito import Carrito, Producto
+
+
+def test_agregar_producto_excede_stock(carrito, producto_generico):
+    """
+    Red: Se espera que al intentar agregar una cantidad mayor a la disponible en stock se lance un ValueError.
+    """
+    # Arrange
+    # Suponemos que el producto tiene 5 unidades en stock.
+
+    # Act & Assert
+    with pytest.raises(ValueError):
+        carrito.agregar_producto(producto_generico, cantidad=6)
+```
 
 ![](img/img39.png)
+
 ### Green:
 Modifica el método `agregar_producto` en `Carrito` para que valide el stock:
+
 ![](img/img40.png)
+
 ### Refactor:
 - Centraliza la validación del stock en un método privado o en la clase `Producto` si es necesario.
 - Documenta la función y separa la lógica de búsqueda del producto en el carrito.
-![](img/img41.png)
+```python
+class Producto:
+    def __init__(self, nombre, precio, stock):
+        self.nombre = nombre
+        self.precio = precio
+        self.stock = stock
+
+    def __repr__(self):
+        return f"Producto({self.nombre}, {self.precio}, {self.stock})"
+    
+    def _buscar_item(self, producto):
+        for item in self.items:
+            if item.producto.nombre == producto.nombre:
+                return item
+        return None
+```
