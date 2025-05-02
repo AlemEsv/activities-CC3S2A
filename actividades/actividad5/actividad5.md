@@ -4,7 +4,12 @@ En esta actividad, exploraremos el proceso de fusionar dos ramas en Git utilizan
 #### Contexto
 En el mundo del desarrollo de software, Git se ha consolidado como una herramienta esencial para la gestión de versiones, permitiendo a equipos y desarrolladores individuales llevar un control preciso de los cambios en el código fuente.
 Dentro de Git, las fusiones juegan un rol fundamental al combinar el trabajo de diferentes ramas, integrando características, correcciones y mejoras al código base. 
-## 1. Fusión Fast-forward (git merge --ff)
+#### Contenido
+- [Fusión Fast-forward](#1-fusión-fast-forward)
+- [Fusión Fusión No-Fast-forward](#2-fusión-no-fast-forward)
+- [Fusión squash](#3-fusión-squash)
+- [Ejercicios](#ejercicios)
+## 1. Fusión Fast-forward
 La fusión **fast-forward** ocurre cuando la rama de destino no tiene commits adicionales desde que se creó la rama a fusionar, lo que permite avanzar directamente el hash de la rama de destino hasta el último commit de la rama fuente, sin crear un nuevo commit de fusión.
 Este tipo de fusión no altera el historial (log), por lo que seguirá permaneciendo de forma lineal.
 ### a. Estructura base del proyecto: 
@@ -119,7 +124,7 @@ git add index.html
 git commit -m "Arreglar merge conflictivo en index.html"
 ```
 
-- h. Revisión del historial.
+- Revisión del historial.
 
 ![](imagenes/ejercicio1_i.png)
 
