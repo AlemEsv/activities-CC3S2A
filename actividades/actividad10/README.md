@@ -48,8 +48,11 @@ pytest --cov=actividad10 --cov-report=html
 ### 3. Añadiendo color
 `pytest` incluye por defecto un sistema de resaltado de colores en su salida por consola, lo que facilita la lectura e interpretación de los resultados de las pruebas sin necesidad de instalar plugins adicionales. Los colores están diseñados para ofrecer una retroalimentación visual inmediata: las pruebas que se ejecutan correctamente se muestran en verde, mientras que las que fallan o presentan errores aparecen en rojo.
 a) con color
+
 ![](img/image4.png)
+
 b) sin color
+
 ![](img/image5.png)
 
 ## Automatización de la configuración: 
