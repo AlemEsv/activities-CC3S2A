@@ -1,0 +1,7 @@
+total 13
+-rw-r--r-- 1 bluga 197609   60 May  1 14:47 build.log
+drwxr-xr-x 1 bluga 197609    0 May  1 12:43 docs
+-rw-r--r-- 1 bluga 197609    0 May  1 14:47 errores.log
+-rw-r--r-- 1 bluga 197609    0 May  1 14:47 listado.txt
+-rw-r--r-- 1 bluga 197609 5172 May  1 14:43 README.md
+drwxr-xr-x 1 bluga 197609    0 May  1 14:43 scripts
