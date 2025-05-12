@@ -1,5 +1,0 @@
-{
-    "python.analysis.extraPaths": [
-        "./devops_testing_mocks"
-    ]
-}
