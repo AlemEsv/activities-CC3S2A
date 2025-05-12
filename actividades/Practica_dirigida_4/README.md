@@ -4,6 +4,12 @@
 
 ### 1. Clasificación de responsabilidades
 
+- *Contexto:* El módulo `services.py` concentra orquestación de pagos.
+- *Enunciado:* Señala cuatro responsabilidades concretas de `PaymentService`. Indica cuáles serían candidatas a extraerse a nuevos "policies" u "object collaborators" para reforzar SRP sin romper LSP.
+- *Aceptación:* ensayo de 400 palabras; menciona qué fixtures habría que crear para las nuevas clases.
+
+**Resolución:**
+
 Los mocks simulan objetos que tratan de imitar la lógica de métodos reales, aunque se escriba erróneamente el nombre del método, este podrá llamar a ese método ficticio, colocarle una lógica propia y *simular* que se está tratando con el método original, por lo que el comportamiento general permanecerá consistente en el tiempo.
 Esto puede suponer llamadas erróneas por lo que en pruebas más rigurosas se usan los usespecs, oara restringir el uso del mock a solo poder imitar la lógica de métodos ya conocidos por esa clase.
 
@@ -20,6 +26,11 @@ Esto puede suponer llamadas erróneas por lo que en pruebas más rigurosas se us
 - Contratos rotos entre servicios.
 
 ### 5. Ventajas y riesgos de monkeypatch
+
+- *Enunciado:* contrapón en 300 palabras setter-like vs constructor-like.
+- *Aceptación:* lista de "casos de uso apropiados" y "smells" para cada estilo.
+
+**Resolución:**
 
 #### Setter-like (patch directo)
 
@@ -51,6 +62,8 @@ b) Smells:
 
 ### 6. Fixture condicional por entorno
 
+*Objetivo:* permitir que los mismos tests usen `DummyGateway` localmente y un gateway real en integración.
+
 ```python
 # conftest.py
 @pytest.fixture
@@ -66,6 +79,8 @@ def gateway():
 ```
 
 ### 7. Custom marker @pytest.mark.contract
+
+*Objetivo:* señalar tests que verifiquen invariantes de dominio (p. ej. "no se persiste un `Payment` sin usuario").
 
 Definir marcador `contract` en pytest.ini
 
@@ -104,6 +119,8 @@ Ejecución de un step contract que verifica los tests que lleven el marcador `co
 
 ### 9. Property-based testing con Hypothesis
 
+*Objetivo:* generar montos aleatorios positivos y verificar que siempre se persiste el pago.
+
 ```bash
 pip install hypothesis
 # Colocar los requisitos actualizados
@@ -128,3 +145,17 @@ def test_payment_persists_any_positive_amount(payment_service):
 ### 10. logging configurable
 
 (...)
+
+## Stubs & Mocks y configuraciones avanzadas
+
+1. **Modelo de sustitución y variabilidad**
+   Explica por qué `DummyGateway` cumple el Principio de Sustitución de Liskov mientras que un mock sin autospec podría violarlo
+
+2. **Side effects y semántica de idempotencia**
+   Describe al menos dos riesgos de emplear `side_effect` para simular errores transitorios en un servicio que, en producción, debe ser idempotente.
+
+3. **Covarianza de fixtures**
+   Analiza la diferencia semántica entre una fixture `function` y una fixture `session` cuando el recurso subyacente representa un pool de conexiones HTTP.
+
+4. **Cobertura vs. mutación**
+   Define **cobertura de línea** y **tasa de mutantes muertos**. Explica, con cifras hipotéticas, cómo un módulo podría alcanzar 100 % de cobertura y aun así dejar vivos el 30 % de mutantes.
