@@ -154,8 +154,34 @@ def test_payment_persists_any_positive_amount(payment_service):
 2. **Side effects y semántica de idempotencia**
    Describe al menos dos riesgos de emplear `side_effect` para simular errores transitorios en un servicio que, en producción, debe ser idempotente.
 
+    a. Simulación incorrecta del estado del sistema:
+
+    Si el `side_effect` simula un fallo y luego una respuesta exitosa, puede ocultar que la operación fue parcialmente completada en el primer intento.
+
+    b.  (...)
+
 3. **Covarianza de fixtures**
    Analiza la diferencia semántica entre una fixture `function` y una fixture `session` cuando el recurso subyacente representa un pool de conexiones HTTP.
 
+    - **scope="function"**
+
+    Una nueva instancia del pool se crea por cada test.
+
+    - **scope="session"**
+
+    Una sola instancia del pool se crea al comienzo y se comparte por todos los tests.
+
 4. **Cobertura vs. mutación**
-   Define **cobertura de línea** y **tasa de mutantes muertos**. Explica, con cifras hipotéticas, cómo un módulo podría alcanzar 100 % de cobertura y aun así dejar vivos el 30 % de mutantes.
+   Define **cobertura de línea** y **tasa de mutantes muertos**.
+
+### Cobertura de línea
+
+Métrica que indica qué porcentaje de líneas de código fueron ejecutadas al correr una suite de pruebas.
+
+- Ejemplo: Si tu código tiene 100 líneas ejecutables y tus tests pasan por 85, entonces la cobertura de línea es del **85%**.
+
+### Tasa de mutantes muertos
+
+métrica usada en mutation testing que mide qué tan efectivas son tus pruebas al detectar cambios sutiles (mutaciones) en el código.
+
+- Ejemplo: Si se generan 50 mutantes y 45 son detectados por las pruebas (mueren), la tasa de mutantes muertos es del **90%**.
