@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **As a** _(specific role - e.g., "developer", "admin", "customer")_
-**I nedd** _(clear functionality or feature needed)_
+**I need** _(clear functionality or feature needed)_
 **So that** _(explain the value or business reason for this feature)_
 
 ---
