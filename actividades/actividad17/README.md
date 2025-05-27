@@ -1,4 +1,6 @@
-# Ejercicios
+# Gestión ágil de proyectos con GitHub Projects, configuración de Kanban Board
+
+Ver el proyecto aquí: [Proyecto Grupal act 17 - 18](https://github.com/AlemEsv/repo-projects)
 
 ![mapa mental github project](assets/images/github-project.png)
 
