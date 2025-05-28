@@ -1,5 +1,7 @@
 # Actividad: Gestión ágil de sprints con GitHub, planificación, ejecución y cierre de Sprints
 
+Ver el proyecto aquí: [Proyecto Grupal act 17 - 18](https://github.com/AlemEsv/repo-projects)
+
 ## Configuración de Sprints
 
 GitHub configurará tres sprints de forma predeterminada para empezar. Luego, creará nuevos sprints automáticamente según sea necesario.
