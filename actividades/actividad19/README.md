@@ -1,119 +1,125 @@
-# Orquestador local de entornos de desarrollo simulados con Terraform
+# Actividad: Orquestador local de entornos de desarrollo simulados con Terraform
 
-Demostraremos los conceptos y principios fundamentales de IaC utilizando Terraform para gestionar un entorno de desarrollo simulado completamente
-local. Aprenderemos a definir, aprovisionar y modificar "infraestructura" (archivos, directorios, scripts de configuración)  de forma reproducible y automatizada.
+**PreRequisitos:**
 
-## Estructura del proyecto (Archivos y directorios)
+- Terraform.
+- Python 3.
+- Conocimientos básicos de bash.
+- Editor de texto o IDE.
 
-```bash
-proyecto_iac_local/
-├── main.tf                     # Configuración principal de Terraform
-├── variables.tf                # Variables de entrada
-├── outputs.tf                  # Salidas del proyecto
-├── versions.tf                 # Versiones de Terraform y providers (local, random)
-├── terraform.tfvars.example    # Ejemplo de archivo de variables
-│
-├── modules/
-│   ├── application_service/    # Módulo para simular un "servicio"
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── outputs.tf
-│   │   └── templates/
-│   │       └── config.json.tpl # Plantilla de configuración del servicio
-│   │
-│   └── environment_setup/      # Módulo para la configuración base del entorno
-│       ├── main.tf
-│       ├── variables.tf
-│       └── scripts/
-│           └── initial_setup.sh # Script de Bash para tareas iniciales
-│
-├── scripts/                    # Scripts globales
-│   ├── python/
-│   │   ├── generate_app_metadata.py # Genera metadatos complejos para apps
-│   │   ├── validate_config.py       # Valida archivos de configuración generados
-│   │   └── report_status.py         # Genera un reporte del "estado" del entorno
-│   └── bash/
-│       ├── start_simulated_service.sh # Simula el "arranque" de un servicio
-│       └── check_simulated_health.sh  # Simula una "comprobación de salud"
-│
-└── generated_environment/      # Directorio creado por Terraform
-    └── (aquí se crearán archivos y directorios)
+## Instalación Terraform ubuntu
+
+1. Actualizar lista de paquetes
+
+    ```bash
+    sudo apt-get update && sudo apt-get install -y gnupg    software-properties-common
+    ```
+
+2. Agregar la clave GPG de HashiCorp
+
+    ```bash
+    wget -O- https://apt.releases.hashicorp.com/gpg | \
+    gpg --dearmor | \
+    sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg > /dev/null
+    ```
+
+3. Verificar la huella de la llave
+
+    ```bash
+    gpg --no-default-keyring \
+    --keyring /usr/share/keyrings/hashicorp-archive-keyring.gpg \
+    --fingerprint
+    ```
+
+4. Agregar repositorio de HashiCorp
+
+    ```bash
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    ```
+
+5. Instalar terraform
+
+    ```bash
+    sudo apt install terraform
+    ```
+
+**Más información en [Terraform/install](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)**
+
+## Problemas previos
+
+Estoy accediendo a **ubuntu** mediante WSL en windows, ya que el proyecto no reconoce ciertos comandos en bash ejecutados en Windows.
+
+### 1. Ejecutable de python
+
+Inicialmente cambio la variable de ejecución de python a la ruta que tengo por defecto con ubuntu.
+
+```json
+variable "python_executable" {
+  description = "Ruta al ejecutable de Python (python o python3)."
+  type        = string
+  default     = "/usr/bin/python3" # <--- cambio
+}
 ```
 
-## Actividad detallada por fases y conceptos
+### 2. Archivos ocultos
 
-### Fase 0: Preparación e introducción
+Algunos archivos tenían caracteres ocultos `\r` debido a que eran tratador para ejecución en windows. Problema que hace que bash no sea capaz de leer bien ciertos archivos.
 
-1. **¿Qué es infraestructura?**
-      * Explica que, en este contexto local, la "infraestructura" serán directorios, archivos de configuración, scripts y la estructura lógica que los conecta.
-      * Compara con infraestructura tradicional (servidores físicos, redes) y cloud (VMs, VPCs).
-      RESPONDER
-2. **¿Qué es infraestructura como código (IaC)?**
-      * **Configuración manual de infraestructura:**
-          * Simula la creación manual de `generated_environment/app1/config.json` y `generated_environment/app1/run.sh`. Discute la propensión a errores, la falta de reproducibilidad y la dificultad para escalar.
-          RESPONDER
-      * **Infraestructura como código:**
-          * Repasa Terraform como la herramienta que nos permitirá definir esta estructura en archivos de código (`.tf`).
-          * Revisa un `main.tf` muy simple que solo cree un directorio. Presenta a tus compañeros un ejemplo.
-          RESPONDER
-      * **¿Qué NO es infraestructura como código?**
-          * Escribe script que modifican infraestructura existente sin un estado deseado definido.
-          * Documenta sobre cómo configurar manualmente (aunque es útil, no es IaC).
-          * Modifica manualmente los recursos creados por Terraform después de `apply`.
-          RESPONDER
+Al correr en Linux o mediante WSL, hay que quitarlos manualmente cambiando de **CRLF a LF** en la barra inferior a la derecha dentro de vscode o de el IDE utilizado.
 
-### Fase 1: Fundamentos de terraform y primer recurso local
+![alt](image.png)
 
-* **Concepto:** Creación básica de recursos.
+### 3. Flag "-p"
 
-### Fase 2: Variables, archivos de configuración y scripts Bash
+Verificar que el comando mkdir tenga el flag `-p`, ya que sino al intentar crear un directorio dentro de una estructura que aún no existe, mkdir fallará.
 
-* **Conceptos:** Parametrización, ejecución de scripts locales.
+```json
+provisioner "local-exec" {
+    command = "mkdir -p ${local.install_path}/logs"
+  }
+```
 
-### Fase 3: Módulos, plantillas y scripts Python
+## Inicializar el proyecto
 
-* **Conceptos:** Modularización, generación dinámica de archivos, integración con Python.
+Este proyecto contiene un orquestador local, que mediante Terraform, crea, configura y valida entornos de desarrollo simulados con múltiples servicios.
 
-### Fase 4: Validación y reportes (Python y Bash)
+```yaml
+# inicializamos el entorno y descargar los providers
+terraform init
 
-* **Conceptos:** Scripts para verificar el estado, gestión del cambio (implícita).
+# Muestra la infraestructura que se creará en base a los archivos creados
+# (opcional)
+terraform plan
 
-## Ejercicios
+# Creación de la infraestructura
+terraform apply -auto-approve
+```
 
-1. **Ejercicio de evolvabilidad y resolución de problemas:**
+Por último, verificaremos la salida en consola que segun el archivo `outputs-tf` debería ser el siguiente:
 
-      * **Tarea:** Añade un nuevo "servicio" llamado `database_connector` al `local.common_app_config` en `main.tf`. Este servicio requiere un parámetro adicional en su configuración JSON llamado `connection_string`.
-      * **Pasos:**
-        1. Modifica `main.tf` para incluir `database_connector`.
-        2. Modifica el módulo `application_service`:
-              * Añade una nueva variable `connection_string_tpl` (opcional, por defecto un string vacío).
-              * Actualiza `config.json.tpl` para incluir este nuevo campo.
-              * Haz que el `connection_string` solo se incluya si la variable no está vacía (usar condicionales en la plantilla o en `locals` del módulo).
-        3. Actualiza el script `validate_config.py` para que verifique la presencia y formato básico de `connection_string` SOLO para el servicio `database_connector`.
-      * **Reto adicional:** Haz que el `start_simulated_service.sh` cree un archivo `.db_lock` si el servicio es `database_connector`.
+```yaml
+output "detalles_apps_simuladas" {
+  value = {
+    for k, app_instance in module.simulated_apps : k => {
+      config_path  = app_instance.service_config_path
+      install_path = app_instance.service_install_path
+      # metadata    = app_instance.service_metadata_content # Puede ser muy verboso
+      metadata_id = app_instance.service_metadata_content.uniqueId
+    }
+  }
+  sensitive = true # Porque contiene mensaje_global (indirectamente)
+}
+```
 
-2. **Ejercicio de refactorización y principios:**
+Y efectivamente, hemos creado la infraestructura de forma satisfactoria.
 
-      * **Tarea:** Actualmente, el `generate_app_metadata.py` se llama para cada servicio. Imagina que parte de los metadatos es común a *todos* los servicios en un "despliegue" (ej. un `deployment_id` global).
-      * **Pasos:**
-        1. Crea un nuevo script Python, `generate_global_metadata.py`, que genere este `deployment_id` (puede ser un `random_uuid`).
-        2. En el `main.tf` raíz, usa `data "external"` para llamar a este nuevo script UNA SOLA VEZ.
-        3. Pasa el `deployment_id` resultante como una variable de entrada al módulo `application_service`.
-        4. Modifica `generate_app_metadata.py` y/o `config.json.tpl` dentro del módulo `application_service` para que incorpore este `deployment_id` global.
-      * **Discusión:** ¿Cómo mejora esto la composabilidad y reduce la redundancia? ¿Cómo afecta la idempotencia?
+![alt](image-1.png)
 
-3. **Ejercicio de idempotencia y scripts externos:**
+y para el momento que ya no necesitemos tener la infraestructura activa, podemos destruirla.
 
-      * **Tarea:** El script `initial_setup.sh` crea `placeholder_$(date +%s).txt`, lo que significa que cada vez que se ejecuta (si los `triggers` lo permiten), crea un nuevo archivo.
-      * **Pasos:**
-        1. Modifica `initial_setup.sh` para que sea más idempotente: antes de crear `placeholder_...txt`, debe verificar si ya existe un archivo `placeholder_control.txt`. Si no existe, lo crea y también crea el `placeholder_...txt`. Si `placeholder_control.txt` ya existe, no hace nada más.
-        2. Ajusta los `triggers` del `null_resource "ejecutar_setup_inicial"` en el módulo `environment_setup` para que el script se ejecute de forma más predecible (quizás solo si una variable específica cambia).
-      * **Reto adicional:** Implementa un "contador de ejecución" en un archivo dentro de `generated_environment`, que el script `initial_setup.sh` incremente solo si realmente realiza una acción.
+```bash
+# destruye la infraestructura existente
+terraform destroy -auto-approve
+```
 
-4. **Ejercicio de seguridad simulada y validación:**
-
-      * **Tarea:** El `mensaje_global` se marca como `sensitive` en `variables.tf`. Sin embargo, se escribe directamente en `config.json`.
-      * **Pasos:**
-        1. Modifica el script `validate_config.py` para que busque explícitamente el contenido de `mensaje_global` (que el estudiante tendrá que "conocer" o pasar como argumento al script de validación) dentro de los archivos `config.json`. Si lo encuentra, debe marcarlo como un "hallazgo de seguridad crítico".
-        2. Discute cómo Terraform maneja los valores `sensitive` y cómo esto se puede perder si no se tiene cuidado al pasarlos a scripts o plantillas.
-        3. (Opcional) Modifica la plantilla `config.json.tpl` para ofuscar o no incluir directamente el `mensaje_global` si es demasiado sensible, tal vez solo una referencia.
+![alt text](image-2.png)
