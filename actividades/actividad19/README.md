@@ -123,3 +123,223 @@ terraform destroy -auto-approve
 ```
 
 ![alt text](image-2.png)
+
+## Explicación detallada por fases
+
+### Fase 1: Fundamentos de terraform y primer recurso local
+
+`version.tf` :
+
+```terraform
+# Bloque que define requisitos generales
+terraform { 
+  # version de terraform
+  required_version = ">= 1.0"
+
+  # proveedores necesarios
+  required_providers {
+
+    # permite interactuar con archivos locales
+    local = {
+      source  = "hashicorp/local"
+      # permite versiones 2.X
+      version = "~> 2.5"
+    }
+
+    # permite generar valores aleatorios
+    random = {
+      source  = "hashicorp/random"
+      # permite versiones 3.X
+      version = "~> 3.6"
+    }
+  }
+}
+```
+
+#### `main.tf`
+
+Dentro de este archivo se crea 2 recursos en base a lo que nos aporta los proveedores anteriores.
+
+- **resource** `local_file`
+
+  Recurso que crea archivos físicos locales (.txt, .json, .yaml, etc) en la maquina donde se ejecuta terraform.
+
+  ```terraform
+  resource "local_file" "bienvenida" {
+  content  = "Bienvenido al proyecto IaC local! Hora: ${timestamp()}"
+  filename = "${path.cwd}/generated_environment/bienvenida.txt"
+  }
+  ```
+
+- **resource** `random_id`
+
+  Generador de IDs aleatorios en formato binario
+
+  ```terraform
+  resource "random_id" "entorno_id" {
+    byte_length = 8
+  }
+  ```
+
+#### `outputs.tf`
+
+Archivo que almacena todas las salidas a consola.
+
+```terraform
+output "id_entorno" {
+
+  value = random_id.entorno_id.hex
+
+  # value = "f71609dd7d8bab"a8"
+}
+
+output "ruta_bienvenida" {
+
+  value = local_file.bienvenida.filename
+
+  # value = "Bienvenido ..."
+}
+```
+
+### Fase 2: Variables, archivos de configuración y scripts Bash
+
+#### `variables.tf`
+
+Define el esqueleto de cada variable de manera global.
+
+```terraform
+variable "nombre_entorno" {
+  description = "Nombre base para el entorno generado."
+  type        = string
+  default     = "desarrollo"
+}
+
+variable "numero_instancias_app_simulada" {
+  description = "Cuántas instancias de la app simulada crear."
+  type        = number
+  default     = 2
+}
+
+variable "mensaje_global" {
+  description = "Un mensaje para incluir en varios archivos."
+  type        = string
+  default     = "Configuración gestionada por Terraform."
+  sensitive   = true # no se muestra en consola
+}
+```
+
+#### `terraform.tfvars.example`
+
+Archivo plantilla que **terraform no lee**, solo sirve de referencia.
+
+```terraform
+nombre_entorno = "mi_proyecto_local"
+numero_instancias_app_simulada = 3
+// mensaje_global se puede omitir para usar default, o definir aquí.
+```
+
+#### `modules/environment_setup`
+
+Este modulo crea el entorno inicial de nuestra infraestructura.
+
+- Crea un ID aleatorio para el README.
+- Crea un archivo README.md (vacio).
+- muestra la ruta del README en consola.
+
+1. `./environment_setup/variables.tf`
+
+    ```terraform
+    variable "base_path" {
+      description = "Ruta base para el entorno."
+      type        = string
+    }
+
+    variable "nombre_entorno_modulo" {
+      description = "Nombre del entorno para este módulo."
+      type        = string
+    }
+    ```
+
+2. `./environment_setup/main.tf`
+
+    ```terraform
+    # Recurso que no administra un recurso real
+    resource "null_resource" "crear_directorio_base" {
+      # provisioner: ejecuta acciones adicionales
+      # "local-exec": permite ejecutar scripts locales
+      provisioner "local-exec" {
+        command = "mkdir -p ${var.base_path}/${var.nombre_entorno_modulo}_data"
+      }
+      # Se ejecute si cambia el nombre del entorno
+      triggers = {
+        dir_name = "${var.base_path}/${var.nombre_entorno_modulo}_data"
+      }
+    }
+
+    # permite crear un README
+    resource "local_file" "readme_entorno" {
+      content  = "Este es el entorno ${var.nombre_entorno_modulo}. ID: ${random_id.entorno_id_modulo.hex}"
+      filename = "${var.base_path}/${var.nombre_entorno_modulo}_data/README.md"
+      depends_on = [null_resource.crear_directorio_base]
+    }
+
+    # permite crer un ID de 4 bytes cualquiera
+    resource "random_id" "entorno_id_modulo" {
+      byte_length = 4
+    }
+
+    # recurso que no crea infraestructura REAL
+    # crea recursos "fantasmas" dentro de terraform.tfstate
+    resource "null_resource" "ejecutar_setup_inicial" {
+
+      # depende de que se haya creado un README
+      depends_on = [local_file.readme_entorno]
+      # trigerea esto si el README cambia
+      triggers = {
+        readme_md5 = local_file.readme_entorno.content_md5
+      }
+
+      provisioner "local-exec" {
+        command     = "bash ${path.module}/scripts/initial_setup.sh '${var.nombre_entorno_modulo}' '${local_file.readme_entorno.filename}'"
+        interpreter = ["bash", "-c"]
+        working_dir = "${var.base_path}/${var.nombre_entorno_modulo}_data" # Ejecutar script desde aquí
+      }
+    }
+    ```
+
+3. `./environment_setup/outputs.tf`
+
+    Muestra la ruta del README creado en `./environment_setup`.
+
+    ```terraform
+    output "ruta_readme_modulo" {
+      value = local_file.readme_entorno.filename
+    }
+    ```
+
+4. `./scripts/initial_setup.sh`
+
+  ```bash
+  #!/bin/bash
+  # Script: initial_setup.sh
+
+  # asigna variables
+  ENV_NAME=$1
+  README_PATH=$2
+
+
+  echo "Ejecutando setup inicial para el entorno: $ENV_NAME"
+  #
+  echo "Fecha de setup: $(date)" > setup_log.txt
+  echo "Readme se encuentra en: $README_PATH" >> setup_log.txt
+
+  echo "Creando archivo de placeholder..."
+  touch placeholder_$(date +%s).txt
+  echo "Setup inicial completado."
+
+  # Simular más líneas de código
+  for i in {1..20}; do
+    echo "Paso de configuración simulado $i..." >> setup_log.txt
+    # sleep 0.01
+  done
+  ```
