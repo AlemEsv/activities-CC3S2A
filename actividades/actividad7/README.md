@@ -3,9 +3,12 @@
 Este proyecto es un ejemplo de cómo utilizar **behave**, una herramienta para pruebas de desarrollo dirigido por comportamiento (Behavior-Driven Development - BDD) en Python, para escribir y ejecutar pruebas en español. Simula el comportamiento de un estómago (`Belly`) que gruñe o no en función de la cantidad de pepinos consumidos y el tiempo de espera.
 
 ## Ejercicio 1: **Añadir soporte para minutos y segundos en tiempos de espera**
+
 **Objetivo**  
+
 - Ampliar la funcionalidad para reconocer tiempos de espera expresados en horas, minutos y segundos.
 Cambio en la clase **steps.py**, para que el *pattern* soporte tiempo de espera para segundos.
+
 ```python
 @when('espero {time_description}')
 def step_when_wait_time_description(context, time_description):
@@ -26,7 +29,9 @@ else:
   total_time_in_hours = hours + (minutes / 60) + (seconds / 3600)
 # (... código posterior ...)
 ```
+
 Para las pruebas BDD analizaré el siguiente escenario:
+
 ```gherkin
 Característica: Comportamiento del Estómago
   Escenario: Comer pepinos y esperar en minutos y segundos
@@ -34,13 +39,18 @@ Característica: Comportamiento del Estómago
     Cuando espero "1 hora y 30 minutos y 45 segundos"
     Entonces mi estómago debería gruñir
 ```
+
 - **Salida BDD:**
 
 ![](img/img2.png)
+
 ## Ejercicio 2: **Manejo de cantidades fraccionarias de pepinos**
+
 **Objetivo**  
+
 - Permitir que el sistema acepte cantidades fraccionarias de pepinos (decimales).
 Se hace una modificación en la clase **steps.py** para que pueda manejar cantidades fraccionarias. Por lo que se registra un `register_type` para pasar el texto en un dato flotante, que permita decimales.
+
 ```python
 from behave import given, when, then, register_type
 import re
@@ -53,24 +63,30 @@ register_type(palabra=parsing_texto_a_float)
 def step_given_eaten_cukes(context, cukes):
   context.belly.comer(cukes)
 ```
+
 - Salida Gherkin:
 
 ![](img/img4.png)
 
-### Prueba con pytest:
+### Prueba con pytest
+
 Uso la misma lógica que la salida Gherkin, pero esta vez para validarlo con pruebas de `pytest`.
+
 ```python
 def test_pepinos_fraccionarios():
   belly = Belly()
   belly.comer(1.5)
   assert belly.pepinos_comidos == 1.5
 ```
+
 - Salida con Pytest:
 
 ![](img/img14.png)
 
 ## Ejercicio 3: **Soporte para idiomas múltiples (Español e Inglés)**
+
 **Objetivo**  
+
 - Aceptar descripciones de tiempo en distintos idiomas (español e inglés).
 Modificación de la función `convertir_palabra_a_numero()` para que verifique valores en español e inglés.
 
@@ -99,7 +115,9 @@ def convertir_palabra_a_numero(palabra):
         }
         return numeros.get(palabra.lower(), 0)
 ```
+
 Dentro de `@when('espero {time_description}')` se agrega expresiones naturales para denotar si se está agregando una hora en español o en inglés.
+
 ```python
 @when('espero {time_description}')
 def step_when_wait_time_description(context, time_description):
@@ -114,14 +132,18 @@ def step_when_wait_time_description(context, time_description):
       pattern = re.compile(r'(?:(\w+)\s*(?:horas?|hours?))?\s*(?:(\w+)\s*(?:minutos?|minutes?))?\s*(?:(\w+)\s*(?:segundos?|seconds?))?')
       match = pattern.match(time_description)
 ```
+
 - Salida Gherkin:
 
 ![](img/img7.png)
 
 ## Ejercicio 4: **Manejo de tiempos aleatorios**
+
 **Objetivo**  
+
 - Permitir ingresar rangos de tiempo (por ejemplo, "entre 1 y 3 horas") y escoger un tiempo aleatorio dentro de ese rango.
 Modificación en la función `step_with_time_description()` para que pueda leer entradas de **Cuando espero un tiempo aleatorio...** donde debo usar otro patrón que coloque valores aleatorios entre dos horas en especifico.
+
 ```python
 @when('espero {time_description}')
 @when('espero un tiempo aleatorio {time_description}')
@@ -144,15 +166,19 @@ def step_when_wait_time_description(context, time_description):
             total_time_in_hours = random.randint(primera_hora + 1,segunda_hora)
 # (...)
 ```
+
 - Salida Gherkin:
 
 ![](img/img9.png)
 
 ## Ejercicio 5: **Validación de cantidades no válidas**
+
 **Objetivo**  
+
 - Manejar y reportar adecuadamente errores al ingresar cantidades no válidas.
 Modificación en `step_given_eaten_cukes(context, cukes)` para que no acepte valores negativos a la hora de comer pepinos.
 - Busca un error y lo guarda para ser posteriormente.
+
 ```python
 @given('que he comido {cukes:palabra} pepinos')
 def step_given_eaten_cukes(context, cukes):
@@ -174,12 +200,15 @@ def step_given_eaten_cukes(context, cukes):
 def step_then_belly_should_have_cukes(context):
     assert context.error is not None, "Se esperaba un error por cantidad negativa, y ocurrió."
 ```
+
 - Salida Gherkin:
 
 ![](img/img11.png)
 
 ## Ejercicio 6: **Escalabilidad con grandes cantidades de pepinos**
+
 **Objetivo**  
+
 - Asegurar que el sistema no falle ni se ponga lento con cantidades y tiempos muy grandes.
 Soporte para cantidad grandes verificando que el código no demora tanto en validar dichos valores.
 - Salida Gherkin:
@@ -187,9 +216,12 @@ Soporte para cantidad grandes verificando que el código no demora tanto en vali
 ![](img/img15.png)
 
 ## Ejercicio 7: **Descripciones de tiempo complejas**
+
 **Objetivo**  
+
 - Ampliar la lógica para manejar descripciones avanzadas tipo `"1 hora, 30 minutos y 45 segundos"`.
 Se añade un reemplazo de comas para que pueda aceptar tiempos que cubran horas, minutos y horas.
+
 ```python
 @when('espero {time_description}')
 @when('espero un tiempo aleatorio {time_description}')
@@ -201,14 +233,18 @@ def step_when_wait_time_description(context, time_description):
     time_description = time_description.replace(',', ' ') # advanced
     time_description = time_description.replace('and', ' ') # english
 ```
+
 - Salida Gherkin:
 
 ![](img/img16.png)
 
 ## Ejercicio 8: **De TDD a BDD – Convertir requisitos técnicos a pruebas en Gherkin**
+
 **Objetivo**  
+
 - Practicar el paso de una prueba unitaria técnica a un escenario BDD comprensible por el negocio.
 Prueba de añadir una prueba unitaria básica con `Pytest` para que valide que si se han comido más de 15 pepinos y se espera 2 horas, el estómago gruñe.
+
 ```python
 def test_belly_steps():
   belly=Belly()
@@ -216,6 +252,7 @@ def test_belly_steps():
   belly.esperar(2)
   assert belly.esta_gruñendo() == True
 ```
+
 - Salida Pytest:
 
 ![](img/img18.png)
@@ -225,8 +262,10 @@ def test_belly_steps():
 ![](img/img19.png)
 
 ## Ejercicio 9: **Identificación de criterios de aceptación para historias de usuario**
+
 - Traducir una historia de usuario en criterios de aceptación claros y escenarios BDD.
 Se registra la historia de nuestro primer usuario, y se crean 2 escenarios modelados a la historia presentada.
+
 ```gherkin
 # =========================================
 #         Historia de usuario:
@@ -246,41 +285,55 @@ Escenario: Comer pocos pepinos y no esperar suficiente tiempo
   Cuando espero 1 hora
   Entonces mi estómago no debería gruñir
 ```
+
 - Salida Gherkin:
 
 ![](img/img20.png)
 
 ## Ejercicio 10: **Escribir pruebas unitarias antes de escenarios BDD**
+
 **Objetivo**  
+
 - Demostrar la secuencia TDD (tests unitarios) → BDD (escenarios).
-### Demostrar la secuencia TDD (tests unitarios) → BDD (escenarios).
+
+### Demostrar la secuencia TDD (tests unitarios) → BDD (escenarios)
+
 Creación de un test unitario para observar si la función **comer()** acepta bien la cantidad de pepinos comidos.
+
 ```python
 def pepinos_comidos():
   belly = Belly()
   belly.comer(15)
   assert belly.pepinos_comidos == 15
 ```
+
 - Prueba en Pytest:
 
 ![](img/img21.png)
 
 Ahora toca pasar el test unitario a un escenario en Gherkin implementando los pasos en Behave.
+
 - Se agrega un `@then(...)` que lea `debería haber comido X pepinos` y revise si la cantidad total es igual a la cantidad comida
+
 ```python
 @then('debería haber comido {cukes:palabra} pepinos')
 def step_then_belly_cukes_count(context, cukes):
     total_cukes = context.belly.pepinos_comidos
     assert total_cukes == cukes, f"Se esperaba haber comido {cukes} pepinos, pero se comieron {total_cukes}."
 ```
+
 - Salida Gherkin:
 
 ![](img/img23.png)
 
 ## Ejercicio 11: **Refactorización guiada por TDD y BDD**
+
 **Objetivo**  
+
 - Refactorizar código existente sin romper funcionalidades, validado por pruebas unitarias y escenarios BDD.
-### Pruebas unitarias:
+
+### Pruebas unitarias
+
 Se eliminan pruebas unitarias repetidas y refactorización en el código.
 
 ![](img/img25.png)
@@ -290,27 +343,34 @@ Se eliminan pruebas unitarias repetidas y refactorización en el código.
 ![](img/img24.png)
 
 ## Ejercicio 12: **Ciclo completo de TDD a BDD – Añadir nueva funcionalidad**
+
 **Objetivo**  
+
 - Desarrollar una nueva funcionalidad *desde cero* con TDD (prueba unitaria) y BDD (escenarios Gherkin).
 Se prueba una nueva funcionalidad que siga "Predecir si el estómago gruñirá con una cantidad dada de pepinos y un tiempo de espera" como una TDD(prueba unitaria)
 
 ![](img/img26.png)
 
 Luego se prueba la BDD de la funcionalidad para estar seguro del testeo.
+
 - Primera salida Gherkin:
 al dejar de cumplir que las horas de espera sean mayores a 1.5 horas, suelta el *assertion* de que el estómago no gruñirá.
 
 ![](img/img27.png)
 
 Se prueba otro caso con unas horas adecuadas.
+
 - Segunda salida Gherkin:
 
 ![](img/img28.png)
 
 ## Ejercicio 13: **Añadir criterios de aceptación claros**
+
 **Objetivo**  
+
 - Definir con precisión los criterios de aceptación de una nueva funcionalidad y plasmarlos en Gherkin.
 Se agrega la función `calcular_pepinos_restantes()` para poder ver cuantos pepinos más puede comer sin llenarse, respecto a la historia del usuario agregada.
+
 ```python
 class Belly:
     def __init__(self):
@@ -332,6 +392,7 @@ class Belly:
 ```  
 
 Se agregan nuevos `@when` y `@then` para el nuevo caso puesto por el usuario en su historia.
+
 ```python
 @when('pregunto cuántos pepinos más puedo comer')
 def step_when_ask_how_many_cukes_more(context):
@@ -346,7 +407,9 @@ def step_then_belly_cukes_max(context, cukes):
 Muestra que podrá comerse X cantidad de pepinos sin llenarse (100 como máximo)
 
 ## Ejercicio 14: **Integración con Mocking, Stubs y Fakes (para DevOps)**
+
 **Objetivo**  
+
 - Demostrar cómo inyectar dependencias simuladas en tu clase `Belly` y usarlas en pruebas BDD y TDD.
 Se crea `clock.py` para simular un reloj
 
