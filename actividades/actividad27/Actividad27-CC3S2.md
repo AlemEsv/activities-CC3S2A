@@ -20,15 +20,112 @@ Tu equipo está desarrollando dos microservicios en Python (Users y Orders) que 
    * Explica cómo un contenedor encapsula la aplicación y sus dependencias. ¿Qué ventajas ofrece frente a una VM en términos de arranque, consumo de recursos y portabilidad?
    * En tu proyecto, ¿qué pasos ocurren al ejecutar `docker build -t user-service .` y por qué cada uno es crítico para garantizar una imagen fiable?
 
+**Encapsulación en contenedores:**
+
+Los contenedores empaquetan la aplicación junto con:
+* Runtime del lenguaje (Python, Node.js)
+* Bibliotecas y dependencias
+* Variables de entorno
+* Configuración del sistema operativo
+
+**Ventajas vs VMs:**
+
+| Aspecto | Contenedor | VM |
+|---------|------------|-----|
+| **Memoria** | MB (compartido kernel) | GB (kernel completo) |
+| **Portabilidad** | Funciona igual en cualquier SO | Dependiente del hipervisor |
+
+**Pasos de `docker build -t user-service .`:**
+
+```bash
+# Ejecuta cada instrucción en capas
+
+# Imagen
+FROM python:3.9-slim
+
+# Copiar dependencias
+COPY requirements.txt .
+
+# Instalación de dependencias
+RUN pip install -r requirements.txt
+
+# Copia todo el contenido de la aplicación en el contenedor con la imagen
+COPY . .
+
+# Ejecuta la aplicación
+CMD ["python", "app.py"]
+```
+
 2. **Optimización de Dockerfile**
 
-   * Analiza el `Dockerfile` de `service-user` y(diagrama de capas) justifica el orden de instrucciones.
+   * Analiza el `Dockerfile` de `service-user` y (diagrama de capas) justifica el orden de instrucciones.
    * Propón optimizaciones (por ejemplo, combinar instrucciones RUN, usar imágenes base más ligeras) y detalla cómo mejorarían el tiempo de build o el tamaño de imagen.
+
+**Dockerfile típico (no optimizado):**
+
+```dockerfile
+FROM python:3.9
+WORKDIR /app
+COPY . .
+RUN pip install -r requirements.txt
+RUN apt-get update
+RUN apt-get install -y curl
+EXPOSE 8000
+CMD ["python", "app.py"]
+```
+
+**Dockerfile optimizado:**
+```dockerfile
+# 1. Imagen base más ligera
+FROM python:3.9-slim AS base
+
+# 2. Instalar dependencias del sistema (una sola capa)
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# 3. Configurar directorio
+WORKDIR /app
+
+# 4. Copiar requirements PRIMERO (mejor cache)
+COPY requirements.txt .
+
+# 5. Instalar dependencias Python
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 6. Copiar código AL FINAL
+COPY . .
+
+EXPOSE 8000
+CMD ["python", "app.py"]
+```
+
+**Optimizaciones aplicadas:**
+* **Imagen base ligera:** `python:3.9-slim` (150MB vs 900MB)
+* **Combinar RUN:** Reduce capas y tamaño
+* **Orden inteligente:** requirements.txt antes que código
+
+**Resultado:** menos tamaño y más rápido rebuild
 
 3. **Redes y volúmenes en un entorno real**
 
    * Si tu microservicio necesitara persistir sesiones o logs de auditoría, ¿cómo montarías un volumen Docker?
    * En producción, ¿qué tipo de red usarías para comunicar los servicios `user` y `order` si estuviesen en distintos hosts, y por qué?
+
+**Volúmenes para persistencia:**
+
+```bash
+# DOCKER COMPOSE
+services:
+  user-service:
+    volumes:
+      - sessions-data:/app/sessions
+      - ./logs:/app/logs
+      
+volumes:
+  sessions-data:
+```
 
 4. **Docker Compose para entornos de desarrollo**
 
@@ -38,6 +135,30 @@ Tu equipo está desarrollando dos microservicios en Python (Users y Orders) que 
      * Una base de datos Redis para gestionar caché de sesión.
      * Un contenedor de administración (por ejemplo, phpMyAdmin o RedisInsight).
    * Explica cómo Compose acelera el onboarding de nuevos desarrolladores y facilita simular entornos de staging locales.
+
+**Comandos útiles:**
+
+```bash
+# Levantar todo
+docker-compose up -d
+
+# Ver logs en tiempo real
+docker-compose logs -f user-service
+
+# Reconstruir servicios
+docker-compose up --build
+
+# Escalar servicios
+docker-compose up --scale order-service=3
+```
+
+**Ventajas para onboarding:**
+
+1. **Un solo comando:** `docker-compose up` levanta todo
+2. **Entorno idéntico:** Mismo setup en todas las máquinas
+3. **Service discovery:** Servicios se encuentran por nombre
+4. **Hot reload:** Cambios en código se reflejan inmediatamente
+5. **Limpieza fácil:** `docker-compose down -v` elimina todo
 
 #### B. Infraestructura como Código (IaC)
 
@@ -70,6 +191,11 @@ Tu equipo está desarrollando dos microservicios en Python (Users y Orders) que 
 
    * Imagina que aumentas el tráfico en un 10× durante una campaña de Black Friday. ¿Cómo ayudaría Kubernetes frente a un orquestador casero hecho con scripts?
    * Compara rápidamente Kubernetes con Docker Swarm en cuanto a ecosistema, escalabilidad y extensibilidad.
+
+Los scripts caseros para orquestación tienen limitaciones críticas durante picos de tráfico. El escalado es completamente manual, lo que significa que cuando detectas el problema ya hay usuarios experimentando lentitud. Además, no existe auto-recuperación: si un contenedor falla, permanece caído hasta que alguien manualmente lo detecte y reinicie.
+
+**Kubernetes**
+Cuando llega el pico de tráfico, Kubernetes detecta automáticamente el incremento en CPU y memoria, escala gradualmente los pods según la demanda, distribuye el tráfico uniformemente, y garantiza que solo pods completamente listos reciban tráfico. Una vez que el pico termina, escala automáticamente hacia abajo para optimizar costos.
 
 9. **Modelado de la arquitectura**
 
